@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class TileComponent3d: MonoBehaviour
 {
+    [HideInInspector]
     public Vector3Int tilePos = Vector3Int.zero;
 }
 

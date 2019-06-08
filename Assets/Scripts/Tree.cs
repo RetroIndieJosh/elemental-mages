@@ -1,14 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
+public enum TreeState
+{
+    Normal,
+    Burning
+}
 
 public class Tree : TileComponent3d
 {
-    void Start() {
-        
-    }
+    [SerializeField] private Sprite m_normalSprite = null;
+    [SerializeField] private Sprite m_burningSprite = null;
+    [SerializeField] private Sprite m_burntTree = null;
 
-    void Update() {
-        
+    private void Start() {
+        GetComponent<SpriteRenderer>().sprite = m_normalSprite;
     }
 }

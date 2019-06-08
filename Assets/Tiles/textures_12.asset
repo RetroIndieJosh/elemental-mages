@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20d5923e15eb83f458479996df3f5c6f, type: 3}
-  m_Name: Water Tile
+  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: textures_12
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -5017969400044716251, guid: ede8c1f5b662fd04a8db3d44cc2c03cc,
+  m_Sprite: {fileID: -8625164978092169872, guid: ede8c1f5b662fd04a8db3d44cc2c03cc,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
@@ -35,4 +35,3 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  m_tileType: 2

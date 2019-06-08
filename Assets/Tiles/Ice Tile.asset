@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d5923e15eb83f458479996df3f5c6f, type: 3}
   m_Name: Ice Tile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: c2678bb012234044aae16a0217540fde, type: 3}
-  m_Color: {r: 0.75, g: 0.9944162, b: 1, a: 1}
+  m_Sprite: {fileID: -2412921342433868664, guid: ede8c1f5b662fd04a8db3d44cc2c03cc,
+    type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0
