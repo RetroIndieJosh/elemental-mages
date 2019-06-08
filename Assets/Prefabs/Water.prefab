@@ -104,5 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e52d7e97e308a468da3db97cdc0ad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceTile: {fileID: 11400000, guid: 064b0bb1b35524246aa78dc89713110e, type: 2}
+  iceTile: {fileID: 11400000, guid: 6eaa413bbdd60a04383046cb532ed38f, type: 2}
+  waterTile: {fileID: 11400000, guid: 5658a70be2ff6934aa7f5a73778b93e4, type: 2}
   tilePos: {x: 0, y: 0, z: 0}

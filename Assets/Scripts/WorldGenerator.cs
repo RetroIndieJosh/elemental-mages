@@ -28,7 +28,9 @@ public class WorldGenerator : MonoBehaviour
                 if( tile.TileType == TileType.Water ) {
                     Debug.Log( "Found a water tile!" );
                     var worldPos = m_tileMap.CellToWorld( tilePos ) + new Vector3( 0.5f, 0.0f, -0.5f );
-                    Instantiate( m_waterPrefab, worldPos, Quaternion.identity );
+                    var prefab = Instantiate( m_waterPrefab, worldPos, Quaternion.identity );
+                    var water = prefab.GetComponent<Water>();
+                    water.tilePos = tilePos;
                 }
             }
         }
