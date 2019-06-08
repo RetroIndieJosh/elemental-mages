@@ -4,6 +4,8 @@ using System.Collections;
 public class SnapToGround : MonoBehaviour
 {
     [SerializeField] private float m_yOffset = 0.5f;
+    [SerializeField] private bool m_snapOnce = true;
+    [SerializeField] private bool m_lockY = false;
 
     private void Start() {
         TrySnap();
@@ -18,7 +20,10 @@ public class SnapToGround : MonoBehaviour
         RaycastHit hit = new RaycastHit();
         if ( Physics.Raycast( transform.position, -transform.up, out hit, Mathf.Infinity ) ) {
             transform.position = hit.point + Vector3.up * m_yOffset;
-            enabled = false;
+            if( m_lockY )
+                GetComponent<Rigidbody>().constraints |= RigidbodyConstraints.FreezePositionY;
+            if ( m_snapOnce )
+                enabled = false;
         }
     }
 }

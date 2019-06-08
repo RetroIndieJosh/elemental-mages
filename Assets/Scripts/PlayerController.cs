@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour,
 
         if ( m_mainControls == null ) {
             m_mainControls = new MainControls();
+            m_mainControls.Cast.SetCallbacks( this );
             m_mainControls.Movement.SetCallbacks( this );
             m_mainControls.PlayerSwitch.SetCallbacks( this );
         }
@@ -73,9 +74,40 @@ public class PlayerController : MonoBehaviour,
             ActivatePlayer( 0 );
     }
 
+    [SerializeField] ParticleSystem m_spellParticles = null;
+
+    private float FacingAngle {
+        get {
+            switch( m_facing ) {
+                case Facing.East: return 270f;
+                case Facing.North: return 0f;
+                case Facing.South: return 180f;
+                case Facing.West: return 90f;
+                default: return 0f;
+            }
+        }
+    }
+
     public void OnCast(InputAction.CallbackContext context ) {
         if ( context.performed == false ) return;
+
+        Debug.Log( "Cast spell" );
+
+        //m_spellParticles.transform.Rotate( Vector3.up, FacingAngle );
+        m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
+        m_spellParticles.Play();
+
+        if ( Physics.Raycast( transform.position, m_spellParticles.transform.forward, out RaycastHit hit, 1f  ) ) {
+            Debug.Log( "Hit something" );
+            var tree = hit.collider.GetComponentInChildren<Tree>();
+            if ( tree == null ) return;
+
+            Debug.Log( "Hit a tree" );
+            tree.Burn();
+        }
     }
+
+    private Vector2 m_stickInput = Vector2.zero;
 
     public void OnMove(InputAction.CallbackContext context) {
         var move = context.ReadValue<Vector2>() * m_moveSpeed;
@@ -83,6 +115,9 @@ public class PlayerController : MonoBehaviour,
             m_body.velocity = Vector3.zero;
             return;
         } 
+
+        // remember our last move input for casting direction
+        m_stickInput = move;
 
         m_body.velocity = new Vector3( move.x, 0f, move.y );
 
