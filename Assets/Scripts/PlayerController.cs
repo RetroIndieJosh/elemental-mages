@@ -11,9 +11,20 @@ public enum PlayerType
     Water
 }
 
+
+public enum Facing
+{
+    East,
+    North,
+    South,
+    West
+}
+
+
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour, MainControls.IMovementActions, MainControls.IPlayerSwitchActions
+public class PlayerController : MonoBehaviour, 
+    MainControls.IMovementActions, MainControls.IPlayerSwitchActions, MainControls.ICastActions
 {
     static public PlayerController activePlayer = null;
 
@@ -23,6 +34,7 @@ public class PlayerController : MonoBehaviour, MainControls.IMovementActions, Ma
 
     public PlayerType PlayerType {  get { return m_playerType; } }
 
+    private Facing m_facing = Facing.East;
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
 
@@ -61,11 +73,30 @@ public class PlayerController : MonoBehaviour, MainControls.IMovementActions, Ma
             ActivatePlayer( 0 );
     }
 
+    public void OnCast(InputAction.CallbackContext context ) {
+        if ( context.performed == false ) return;
+    }
+
     public void OnMove(InputAction.CallbackContext context) {
         var move = context.ReadValue<Vector2>() * m_moveSpeed;
-        if ( move.magnitude < Mathf.Epsilon )
+        if ( move.magnitude < Mathf.Epsilon ) {
             m_body.velocity = Vector3.zero;
-        else m_body.velocity = new Vector3( move.x, 0f, move.y );
+            return;
+        } 
+
+        m_body.velocity = new Vector3( move.x, 0f, move.y );
+
+        var prevFacing = m_facing;
+
+        if ( move.y > Mathf.Epsilon ) m_facing = Facing.North;
+        else if ( move.y < -Mathf.Epsilon ) m_facing = Facing.South;
+        else if ( move.x > Mathf.Epsilon ) m_facing = Facing.East;
+        else m_facing = Facing.West;
+
+        var wasFacingWest = prevFacing == Facing.West && m_facing != Facing.East;
+        GetComponent<SpriteRenderer>().flipX = m_facing == Facing.West || wasFacingWest;
+
+        //Debug.Log( $"Facing {m_facing}" );
     }
 
     public void OnNextPlayer( InputAction.CallbackContext context ) {
@@ -95,6 +126,6 @@ public class PlayerController : MonoBehaviour, MainControls.IMovementActions, Ma
 
         activePlayer.enabled = true;
 
-        Debug.Log( $"New player: {activePlayer.name}" );
+        //Debug.Log( $"New player: {activePlayer.name}" );
     }
 }

@@ -351,6 +351,49 @@ public class MainControls : IInputActionCollection
                     ""modifiers"": """"
                 }
             ]
+        },
+        {
+            ""name"": ""Cast"",
+            ""id"": ""7d78ccfe-5ce2-49e6-ad03-1fba1847c4c9"",
+            ""actions"": [
+                {
+                    ""name"": ""Cast"",
+                    ""id"": ""b46fc351-b127-42b4-9d44-cdba4699c0f7"",
+                    ""expectedControlLayout"": """",
+                    ""continuous"": false,
+                    ""passThrough"": false,
+                    ""initialStateCheck"": false,
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""bindings"": []
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b57d8b6c-8211-4802-9b86-b383a1bf51ae"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cast"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4411e3c-1277-471a-807d-efdd834adadf"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cast"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -362,6 +405,9 @@ public class MainControls : IInputActionCollection
         m_PlayerSwitch = asset.GetActionMap("Player Switch");
         m_PlayerSwitch_NextPlayer = m_PlayerSwitch.GetAction("Next Player");
         m_PlayerSwitch_PrevPlayer = m_PlayerSwitch.GetAction("Prev Player");
+        // Cast
+        m_Cast = asset.GetActionMap("Cast");
+        m_Cast_Cast = m_Cast.GetAction("Cast");
     }
 
     ~MainControls()
@@ -498,6 +544,46 @@ public class MainControls : IInputActionCollection
             return new PlayerSwitchActions(this);
         }
     }
+
+    // Cast
+    private InputActionMap m_Cast;
+    private ICastActions m_CastActionsCallbackInterface;
+    private InputAction m_Cast_Cast;
+    public struct CastActions
+    {
+        private MainControls m_Wrapper;
+        public CastActions(MainControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Cast { get { return m_Wrapper.m_Cast_Cast; } }
+        public InputActionMap Get() { return m_Wrapper.m_Cast; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled { get { return Get().enabled; } }
+        public InputActionMap Clone() { return Get().Clone(); }
+        public static implicit operator InputActionMap(CastActions set) { return set.Get(); }
+        public void SetCallbacks(ICastActions instance)
+        {
+            if (m_Wrapper.m_CastActionsCallbackInterface != null)
+            {
+                Cast.started -= m_Wrapper.m_CastActionsCallbackInterface.OnCast;
+                Cast.performed -= m_Wrapper.m_CastActionsCallbackInterface.OnCast;
+                Cast.canceled -= m_Wrapper.m_CastActionsCallbackInterface.OnCast;
+            }
+            m_Wrapper.m_CastActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                Cast.started += instance.OnCast;
+                Cast.performed += instance.OnCast;
+                Cast.canceled += instance.OnCast;
+            }
+        }
+    }
+    public CastActions @Cast
+    {
+        get
+        {
+            return new CastActions(this);
+        }
+    }
     public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -506,5 +592,9 @@ public class MainControls : IInputActionCollection
     {
         void OnNextPlayer(InputAction.CallbackContext context);
         void OnPrevPlayer(InputAction.CallbackContext context);
+    }
+    public interface ICastActions
+    {
+        void OnCast(InputAction.CallbackContext context);
     }
 }

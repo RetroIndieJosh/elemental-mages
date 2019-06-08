@@ -337,6 +337,49 @@
                     "modifiers": ""
                 }
             ]
+        },
+        {
+            "name": "Cast",
+            "id": "7d78ccfe-5ce2-49e6-ad03-1fba1847c4c9",
+            "actions": [
+                {
+                    "name": "Cast",
+                    "id": "b46fc351-b127-42b4-9d44-cdba4699c0f7",
+                    "expectedControlLayout": "",
+                    "continuous": false,
+                    "passThrough": false,
+                    "initialStateCheck": false,
+                    "processors": "",
+                    "interactions": "",
+                    "bindings": []
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b57d8b6c-8211-4802-9b86-b383a1bf51ae",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cast",
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                },
+                {
+                    "name": "",
+                    "id": "e4411e3c-1277-471a-807d-efdd834adadf",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cast",
+                    "isComposite": false,
+                    "isPartOfComposite": false,
+                    "modifiers": ""
+                }
+            ]
         }
     ],
     "controlSchemes": []
