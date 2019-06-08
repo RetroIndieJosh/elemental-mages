@@ -3,13 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEngine.Tilemaps;
+
+public enum PlayerType
+{
+    Fire,
+    Water
+}
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour, MainControls.IMovementActions, MainControls.IPlayerSwitchActions
 {
+    static public PlayerController activePlayer = null;
+
     [SerializeField] private bool m_isInitialPlayer = false;
+    [SerializeField] private PlayerType m_playerType = PlayerType.Fire;
     [SerializeField] private float m_moveSpeed = 5f;
+
+    public PlayerType PlayerType {  get { return m_playerType; } }
 
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
@@ -45,7 +57,8 @@ public class PlayerController : MonoBehaviour, MainControls.IMovementActions, Ma
     }
 
     private void Start() {
-        enabled = m_isInitialPlayer;
+        if( m_isInitialPlayer )
+            ActivatePlayer( 0 );
     }
 
     public void OnMove(InputAction.CallbackContext context) {
@@ -65,14 +78,23 @@ public class PlayerController : MonoBehaviour, MainControls.IMovementActions, Ma
 
     private void ActivatePlayer(int a_indexChange ) {
         var list = FindObjectsOfType<PlayerController>().ToList();
-        var index = ( list.IndexOf( this ) + a_indexChange ) % list.Count;
-        if ( index < 0 ) index += list.Count;
+        foreach ( var player in list )
+            player.enabled = false;
 
-        m_body.velocity = Vector3.zero;
+        if ( a_indexChange != 0 ) {
+            var index = ( list.IndexOf( this ) + a_indexChange ) % list.Count;
+            if ( index < 0 ) index += list.Count;
 
-        enabled = false;
-        list[index].enabled = true;
+            m_body.velocity = Vector3.zero;
 
-        Debug.Log( $"New player: {index}" );
+            enabled = false;
+            activePlayer = list[index];
+        } else {
+            activePlayer = this;
+        }
+
+        activePlayer.enabled = true;
+
+        Debug.Log( $"New player: {activePlayer.name}" );
     }
 }
