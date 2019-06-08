@@ -16,6 +16,14 @@ public class PlayerController : MonoBehaviour, MainControls.IMovementActions, Ma
 
     private void Awake() {
         m_body = GetComponent<Rigidbody>();
+        m_initialConstraints = m_body.constraints;
+    }
+
+    private RigidbodyConstraints m_initialConstraints = RigidbodyConstraints.None;
+
+    private void OnDisable() {
+        m_mainControls.Disable();
+        m_body.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     private void OnEnable() {
@@ -31,10 +39,9 @@ public class PlayerController : MonoBehaviour, MainControls.IMovementActions, Ma
             m_mainControls.PlayerSwitch.SetCallbacks( this );
         }
         m_mainControls.Enable();
-    }
 
-    private void OnDisable() {
-        m_mainControls.Disable();
+        m_body.constraints = m_initialConstraints;
+        Camera.main.GetComponent<CameraMover>().TargetFocus = gameObject;
     }
 
     private void Start() {
@@ -43,7 +50,9 @@ public class PlayerController : MonoBehaviour, MainControls.IMovementActions, Ma
 
     public void OnMove(InputAction.CallbackContext context) {
         var move = context.ReadValue<Vector2>() * m_moveSpeed;
-        m_body.velocity = new Vector3( move.x, 0f, move.y );
+        if ( move.magnitude < Mathf.Epsilon )
+            m_body.velocity = Vector3.zero;
+        else m_body.velocity = new Vector3( move.x, 0f, move.y );
     }
 
     public void OnNextPlayer( InputAction.CallbackContext context ) {
