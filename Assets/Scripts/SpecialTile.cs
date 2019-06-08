@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public enum TileType
 {
+    Fire,
+    Tree,
     Water
 }
 
