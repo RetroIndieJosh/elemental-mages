@@ -2,13 +2,14 @@
 - burned ground tile
 
 # Tech
-- walls
 - exit implementation
 - more complex camera
+- fire tile (propogate to trees but never burns out unless wet)
 
 - burning trees animation
 - movement animations
 - idle animations
+- wall graphics
 
 - remove debug numbers on trees
 

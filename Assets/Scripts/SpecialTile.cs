@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public enum TileType
 {
+    Exit,
     Fire,
     Tree,
     Water
@@ -19,19 +20,5 @@ public class SpecialTile : Tile
 
     public override void GetTileData( Vector3Int position, ITilemap tilemap, ref TileData tileData ) {
         base.GetTileData( position, tilemap, ref tileData );
-    }
-
-    private GameObject MakeObject() {
-        var go = new GameObject();
-
-        var boxCollider = go.AddComponent<BoxCollider>();
-        boxCollider.size = Vector3.one;
-        boxCollider.center = Vector3.up * 0.5f;
-
-        if( m_tileType == TileType.Water ) {
-            // TODO
-        }
-
-        return go;
     }
 }

@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour,
         if ( m_timeSinceLastCastSec < m_spellCooldownTimeSec ) return;
         if ( context.performed == false ) return;
 
-        Debug.Log( "Cast spell" );
+        //Debug.Log( "Cast spell" );
 
         //m_spellParticles.transform.Rotate( Vector3.up, FacingAngle );
         m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
@@ -109,11 +109,11 @@ public class PlayerController : MonoBehaviour,
         m_timeSinceLastCastSec = 0f;
 
         if ( Physics.Raycast( transform.position, m_spellParticles.transform.forward, out RaycastHit hit, 1f  ) ) {
-            Debug.Log( "Hit something" );
+            //Debug.Log( "Hit something" );
             var tree = hit.collider.GetComponentInChildren<Plant>();
             if ( tree == null ) return;
 
-            Debug.Log( "Hit a tree" );
+            //Debug.Log( "Hit a tree" );
             if( PlayerType == PlayerType.Fire )
                 tree.Burn();
             else if( PlayerType == PlayerType.Water )

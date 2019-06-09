@@ -10,6 +10,7 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] private Tilemap m_tileMap = null;
 
     [Header("Prefabs")]
+    [SerializeField] private GameObject m_exitPrefab = null;
     [SerializeField] private GameObject m_treePrefab = null;
     [SerializeField] private GameObject m_waterPrefab = null;
 
@@ -24,6 +25,11 @@ public class WorldGenerator : MonoBehaviour
     public float FireBurnDownTimeSecTotal { get { return m_firePropogationTimeSec + m_fireBurnDownTimeSec; } }
 
     private GameObject[,] m_tileObjects = null;
+
+    public void NextLevel() {
+        Debug.Log( "Level complete!" );
+        // TODO
+    }
 
     private TileComponent3d GetTileComponent3D( Vector2Int a_tilePos ) {
         var tilePos = new Vector3Int( a_tilePos.x, a_tilePos.y, 0 );
@@ -41,7 +47,8 @@ public class WorldGenerator : MonoBehaviour
         if ( tileObj == null ) return null;
 
         TileComponent3d tileComp = null;
-        if ( tile.TileType == TileType.Tree ) tileComp = tileObj.GetComponentInChildren<Plant>();
+        if ( tile.TileType == TileType.Exit ) tileComp = tileObj.GetComponentInChildren<Exit>();
+        else if ( tile.TileType == TileType.Tree ) tileComp = tileObj.GetComponentInChildren<Plant>();
         else if ( tile.TileType == TileType.Water ) tileComp = tileObj.GetComponentInChildren<Water>();
 
         return tileComp;
@@ -117,7 +124,9 @@ public class WorldGenerator : MonoBehaviour
 
                 GameObject go = null;
 
-                if ( tile.TileType == TileType.Tree ) {
+                if ( tile.TileType == TileType.Exit ) {
+                    go = CreateTileObject<Exit>( tilePos, m_exitPrefab );
+                }else if ( tile.TileType == TileType.Tree ) {
                     go = CreateTileObject<Plant>( tilePos, m_treePrefab );
                 } else if ( tile.TileType == TileType.Water ) {
                     go = CreateTileObject<Water>( tilePos, m_waterPrefab );
@@ -128,7 +137,7 @@ public class WorldGenerator : MonoBehaviour
                 var ix = tilePos.x - m_tileMap.origin.x;
                 var iy = tilePos.y - m_tileMap.origin.y;
                 m_tileObjects[ix, iy] = go;
-                Debug.Log( $"New {tile.TileType} at {tilePos} ({ix}, {iy})" );
+                //Debug.Log( $"New {tile.TileType} at {tilePos} ({ix}, {iy})" );
             }
         }
     }
