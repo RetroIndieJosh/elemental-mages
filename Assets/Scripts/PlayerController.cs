@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour,
 
         if ( Physics.Raycast( transform.position, m_spellParticles.transform.forward, out RaycastHit hit, 1f  ) ) {
             Debug.Log( "Hit something" );
-            var tree = hit.collider.GetComponentInChildren<Tree>();
+            var tree = hit.collider.GetComponentInChildren<Plant>();
             if ( tree == null ) return;
 
             Debug.Log( "Hit a tree" );
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour,
         else m_facing = Facing.West;
 
         var wasFacingWest = prevFacing == Facing.West && m_facing != Facing.East;
-        GetComponent<SpriteRenderer>().flipX = m_facing == Facing.West || wasFacingWest;
+        GetComponentInChildren<SpriteRenderer>().flipX = m_facing == Facing.West || wasFacingWest;
 
         //Debug.Log( $"Facing {m_facing}" );
     }
