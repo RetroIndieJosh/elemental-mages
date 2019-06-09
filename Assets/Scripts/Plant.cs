@@ -32,6 +32,13 @@ public class Plant : TileComponent3d
         BurnTime = 0f;
     }
 
+    public void Wet() {
+        if ( PlantState != PlantState.Burning ) return;
+
+        GetComponent<SpriteRenderer>().sprite = m_burntTree;
+        PlantState = PlantState.Normal;
+    }
+
     private void Update() {
         if ( PlantState != PlantState.Burning ) return;
 

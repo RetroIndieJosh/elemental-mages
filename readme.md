@@ -3,13 +3,14 @@
 
 # Tech
 - walls
-- water power to unburn trees
-- cooldown on casting
 - exit implementation
+- more complex camera
+
 - burning trees animation
 - movement animations
 - idle animations
-- more complex camera
+
+- remove debug numbers on trees
 
 # Wishlist
 - earth mage (water -> tree)

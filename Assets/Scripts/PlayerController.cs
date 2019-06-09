@@ -7,6 +7,8 @@ using UnityEngine.Tilemaps;
 
 public enum PlayerType
 {
+    Air,
+    Earth,
     Fire,
     Water
 }
@@ -32,11 +34,16 @@ public class PlayerController : MonoBehaviour,
     [SerializeField] private PlayerType m_playerType = PlayerType.Fire;
     [SerializeField] private float m_moveSpeed = 5f;
 
+    [Header("Casting")]
+    [SerializeField] private ParticleSystem m_spellParticles = null;
+    [SerializeField] private float m_spellCooldownTimeSec = 0f;
+
     public PlayerType PlayerType {  get { return m_playerType; } }
 
     private Facing m_facing = Facing.East;
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
+    private float m_timeSinceLastCastSec = 0f;
 
     private void Awake() {
         m_body = GetComponent<Rigidbody>();
@@ -74,7 +81,9 @@ public class PlayerController : MonoBehaviour,
             ActivatePlayer( 0 );
     }
 
-    [SerializeField] ParticleSystem m_spellParticles = null;
+    private void Update() {
+        m_timeSinceLastCastSec += Time.deltaTime;
+    }
 
     private float FacingAngle {
         get {
@@ -89,6 +98,7 @@ public class PlayerController : MonoBehaviour,
     }
 
     public void OnCast(InputAction.CallbackContext context ) {
+        if ( m_timeSinceLastCastSec < m_spellCooldownTimeSec ) return;
         if ( context.performed == false ) return;
 
         Debug.Log( "Cast spell" );
@@ -96,6 +106,7 @@ public class PlayerController : MonoBehaviour,
         //m_spellParticles.transform.Rotate( Vector3.up, FacingAngle );
         m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
         m_spellParticles.Play();
+        m_timeSinceLastCastSec = 0f;
 
         if ( Physics.Raycast( transform.position, m_spellParticles.transform.forward, out RaycastHit hit, 1f  ) ) {
             Debug.Log( "Hit something" );
@@ -103,7 +114,10 @@ public class PlayerController : MonoBehaviour,
             if ( tree == null ) return;
 
             Debug.Log( "Hit a tree" );
-            tree.Burn();
+            if( PlayerType == PlayerType.Fire )
+                tree.Burn();
+            else if( PlayerType == PlayerType.Water )
+                tree.Wet();
         }
     }
 
