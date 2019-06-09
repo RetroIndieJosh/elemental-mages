@@ -16,7 +16,12 @@ public class WorldGenerator : MonoBehaviour
     [Header( "Game Balance" )]
     [SerializeField] private float m_firePropogationTimeSec = 0.5f;
 
+    [SerializeField, Tooltip("In addition to propogation time") ]
+    private float m_fireBurnDownTimeSec = 0.5f;
+
     public Tilemap TileMap {  get { return m_tileMap; } }
+
+    public float FireBurnDownTimeSecTotal { get { return m_firePropogationTimeSec + m_fireBurnDownTimeSec; } }
 
     private GameObject[,] m_tileObjects = null;
 

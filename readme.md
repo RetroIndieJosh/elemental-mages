@@ -1,8 +1,9 @@
 # Art
-- water power particle sprite
+- burned ground tile
 
 # Tech
-- fire propogation on trees
+- walls
+- water power to unburn trees
 - cooldown on casting
 - exit implementation
 - burning trees animation
@@ -15,3 +16,9 @@
 - wind mage (blow fire across empty tiles)
 - water flows like a river, stopped by ice (overflow)
 - camera rotation
+
+# Music
+
+# Sound
+
+# Levels

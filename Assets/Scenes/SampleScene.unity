@@ -5672,6 +5672,7 @@ MonoBehaviour:
   m_waterPrefab: {fileID: 6123445256275456356, guid: e60aed7d40268f141bfe991317d316e9,
     type: 3}
   m_firePropogationTimeSec: 2
+  m_fireBurnDownTimeSec: 2
 --- !u!4 &1080379517
 Transform:
   m_ObjectHideFlags: 0

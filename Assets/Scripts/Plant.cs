@@ -7,7 +7,8 @@ using TMPro;
 public enum PlantState
 {
     Normal,
-    Burning
+    Burning,
+    BurnedDown
 }
 
 public class Plant : TileComponent3d
@@ -24,7 +25,7 @@ public class Plant : TileComponent3d
     public float BurnTime { get; private set; }
 
     public void Burn() {
-        if ( PlantState == PlantState.Burning ) return;
+        if ( PlantState != PlantState.Normal ) return;
 
         GetComponent<SpriteRenderer>().sprite = m_burningSprite;
         PlantState = PlantState.Burning;
@@ -36,6 +37,13 @@ public class Plant : TileComponent3d
 
         BurnTime += Time.deltaTime;
         m_burnTimeTextMesh.text = $"{Mathf.FloorToInt( BurnTime )}";
+
+        if ( BurnTime >= WorldGenerator.instance.FireBurnDownTimeSecTotal ) {
+            PlantState = PlantState.BurnedDown;
+            GetComponentInParent<Collider>().isTrigger = true;
+            GetComponent<SpriteRenderer>().sprite = null;
+            // TODO modify floor tile?
+        }
     }
 
     private void Start() {
