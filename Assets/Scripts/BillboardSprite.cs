@@ -41,9 +41,16 @@ public class BillboardSprite : MonoBehaviour {
     */
 
     private void UpdateRotation() {
+        /*
         if( m_style == BillboardStyle.AlwaysFaceCamera)
             transform.LookAt( Camera.main.transform, Vector3.up );
         else transform.forward = Camera.main.transform.forward;
+        */
+        var yRot = Camera.main.transform.parent.rotation.eulerAngles.y;
+        var angles = transform.eulerAngles;
+        angles.y = yRot;
+        transform.eulerAngles = angles;
+        Debug.Log( "Rotate " + yRot );
     }
 
 }

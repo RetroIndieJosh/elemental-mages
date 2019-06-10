@@ -188,7 +188,7 @@ public class WorldGenerator : MonoBehaviour
     private GameObject CreateTileObject<T>( Vector3Int a_tilePos, GameObject a_prefab ) where T: TileComponent3d {
         if ( CheckChanged<T>( a_tilePos ) == false ) return null;
 
-        var worldPos = m_tileMap.CellToWorld( a_tilePos ) + new Vector3( 0.5f, 0.0f, -0.5f );
+        var worldPos = m_tileMap.CellToWorld( a_tilePos ) + new Vector3( 0.5f, 0.5f, -0.5f );
         var go = Instantiate( a_prefab, worldPos, Quaternion.identity );
         var comp = go.GetComponentInChildren<T>();
         comp.tilePos = a_tilePos;
