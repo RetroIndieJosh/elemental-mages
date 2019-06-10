@@ -15,6 +15,7 @@ public class WorldGenerator : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject m_exitPrefab = null;
+    [SerializeField] private GameObject m_firePrefab = null;
     [SerializeField] private GameObject m_treePrefab = null;
     [SerializeField] private GameObject m_waterPrefab = null;
 
@@ -75,6 +76,7 @@ public class WorldGenerator : MonoBehaviour
 
         TileComponent3d tileComp = null;
         if ( tile.TileType == TileType.Exit ) tileComp = tileObj.GetComponentInChildren<Exit>();
+        else if ( tile.TileType == TileType.Fire ) tileComp = tileObj.GetComponentInChildren<Fire>();
         else if ( tile.TileType == TileType.Tree ) tileComp = tileObj.GetComponentInChildren<Plant>();
         else if ( tile.TileType == TileType.Water ) tileComp = tileObj.GetComponentInChildren<Water>();
 
@@ -160,7 +162,9 @@ public class WorldGenerator : MonoBehaviour
 
                 if ( tile.TileType == TileType.Exit ) {
                     go = CreateTileObject<Exit>( tilePos, m_exitPrefab );
-                }else if ( tile.TileType == TileType.Tree ) {
+                } else if ( tile.TileType == TileType.Fire ) {
+                    go = CreateTileObject<Fire>( tilePos, m_firePrefab );
+                } else if ( tile.TileType == TileType.Tree ) {
                     go = CreateTileObject<Plant>( tilePos, m_treePrefab );
                 } else if ( tile.TileType == TileType.Water ) {
                     go = CreateTileObject<Water>( tilePos, m_waterPrefab );

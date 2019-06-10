@@ -3,7 +3,8 @@
 - visual depiction for cooldown (UI or in player?)
 
 # Tech
-- fire tile (propogate to trees but never burns out unless wet)
+- burn out fire when wet
+- propogate fire to trees (burn)
 
 - burning trees animation
 - movement animations

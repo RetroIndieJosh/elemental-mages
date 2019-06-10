@@ -24,7 +24,7 @@ public class Plant : TileComponent3d
 
     public float BurnTime { get; private set; }
 
-    public void Burn() {
+    override public void Burn() {
         if ( PlantState != PlantState.Normal ) return;
 
         GetComponent<SpriteRenderer>().sprite = m_burningSprite;
@@ -32,7 +32,7 @@ public class Plant : TileComponent3d
         BurnTime = 0f;
     }
 
-    public void Wet() {
+    override public void Wet() {
         if ( PlantState != PlantState.Burning ) return;
 
         GetComponent<SpriteRenderer>().sprite = m_burntTree;

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileComponent3d: MonoBehaviour
+public abstract class TileComponent3d: MonoBehaviour
 {
     [HideInInspector]
     public Vector3Int tilePos = Vector3Int.zero;
+
+    public abstract void Burn();
+    public abstract void Wet();
 }
 
 public class Water : TileComponent3d
@@ -37,4 +40,7 @@ public class Water : TileComponent3d
     private void Update() {
         m_collider.isTrigger = m_isIce || ( PlayerController.activePlayer.PlayerType == PlayerType.Water );
     }
+
+    public override void Burn() { }
+    public override void Wet() { }
 }

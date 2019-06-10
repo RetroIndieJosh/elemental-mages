@@ -45,13 +45,14 @@ public class PlayerController : MonoBehaviour,
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
     private float m_timeSinceLastCastSec = 0f;
+    private Vector2 m_stickInput = Vector2.zero;
+
+    private RigidbodyConstraints m_initialConstraints = RigidbodyConstraints.None;
 
     private void Awake() {
         m_body = GetComponent<Rigidbody>();
         m_initialConstraints = m_body.constraints;
     }
-
-    private RigidbodyConstraints m_initialConstraints = RigidbodyConstraints.None;
 
     private void OnDisable() {
         m_mainControls.Disable();
@@ -111,18 +112,16 @@ public class PlayerController : MonoBehaviour,
 
         if ( Physics.Raycast( transform.position, m_spellParticles.transform.forward, out RaycastHit hit, 1f  ) ) {
             //Debug.Log( "Hit something" );
-            var tree = hit.collider.GetComponentInChildren<Plant>();
-            if ( tree == null ) return;
+            var target = hit.collider.GetComponentInChildren<TileComponent3d>();
+            if ( target == null ) return;
 
             //Debug.Log( "Hit a tree" );
             if( PlayerType == PlayerType.Fire )
-                tree.Burn();
+                target.Burn();
             else if( PlayerType == PlayerType.Water )
-                tree.Wet();
+                target.Wet();
         }
     }
-
-    private Vector2 m_stickInput = Vector2.zero;
 
     public void OnMove(InputAction.CallbackContext context) {
         var move = context.ReadValue<Vector2>();

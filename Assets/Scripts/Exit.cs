@@ -10,4 +10,7 @@ public class Exit : TileComponent3d
 
         WorldGenerator.instance.NextLevel();
     }
+
+    public override void Burn() { }
+    public override void Wet() { }
 }
