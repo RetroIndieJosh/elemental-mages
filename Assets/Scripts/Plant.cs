@@ -39,6 +39,10 @@ public class Plant : TileComponent3d
         PlantState = PlantState.Normal;
     }
 
+    private void Awake() {
+        PlantState = PlantState.Normal;
+    }
+
     private void Update() {
         if ( PlantState != PlantState.Burning ) return;
 

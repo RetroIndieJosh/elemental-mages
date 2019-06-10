@@ -3,9 +3,6 @@
 - visual depiction for cooldown (UI or in player?)
 
 # Tech
-- burn out fire when wet
-- propogate fire to trees (burn)
-
 - burning trees animation
 - movement animations
 - idle animations

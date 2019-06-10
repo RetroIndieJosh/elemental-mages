@@ -125,6 +125,16 @@ public class WorldGenerator : MonoBehaviour
         UpdateFirePropogation();
     }
 
+    private void PropogateFire( int a_x, int a_y ) {
+        var absolutePos = new Vector2Int( a_x + m_tileMap.origin.x, a_y + m_tileMap.origin.y );
+        var adjacentTiles = GetAdjacentTiles( absolutePos );
+        foreach ( var tile in adjacentTiles ) {
+            var tree = tile as Plant;
+            if ( tree == null ) continue;
+            tree.Burn();
+        }
+    }
+
     private void UpdateFirePropogation() {
         for( var x = 0; x < m_tileMap.size.x; ++x ) {
             for ( var y = 0; y < m_tileMap.size.y; ++y ) {
@@ -132,18 +142,14 @@ public class WorldGenerator : MonoBehaviour
                 if ( tileObj == null ) continue;
 
                 var centerTree = tileObj.GetComponentInChildren<Plant>();
-                if ( centerTree == null ) continue;
-
-                if ( centerTree.PlantState != PlantState.Burning || centerTree.BurnTime < m_firePropogationTimeSec )
+                if ( centerTree == null ) {
+                    var fire = tileObj.GetComponentInChildren<Fire>();
+                    if( fire == null || fire.FireState == FireState.Out ) continue;
+                } else if ( centerTree.PlantState != PlantState.Burning 
+                    || centerTree.BurnTime < m_firePropogationTimeSec )
                     continue;
 
-                var absolutePos = new Vector2Int( x + m_tileMap.origin.x, y + m_tileMap.origin.y );
-                var adjacentTiles = GetAdjacentTiles( absolutePos );
-                foreach( var tile in adjacentTiles ) {
-                    var tree = tile as Plant;
-                    if ( tree == null ) continue;
-                    tree.Burn();
-                }
+                PropogateFire( x, y );
             }
         }
     }
