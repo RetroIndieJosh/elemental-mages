@@ -1,5 +1,6 @@
 # Art
 - burned ground tile
+- visual depiction for cooldown (UI or in player?)
 
 # Tech
 - exit implementation

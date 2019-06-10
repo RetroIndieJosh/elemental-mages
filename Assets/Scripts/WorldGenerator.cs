@@ -9,6 +9,10 @@ public class WorldGenerator : MonoBehaviour
 
     [SerializeField] private Tilemap m_tileMap = null;
 
+    [Header( "Levels" )]
+    [SerializeField] private int m_startLevelIndex = 0;
+    [SerializeField] private List<Tilemap> m_levelTileMaps = new List<Tilemap>();
+
     [Header("Prefabs")]
     [SerializeField] private GameObject m_exitPrefab = null;
     [SerializeField] private GameObject m_treePrefab = null;
@@ -25,10 +29,33 @@ public class WorldGenerator : MonoBehaviour
     public float FireBurnDownTimeSecTotal { get { return m_firePropogationTimeSec + m_fireBurnDownTimeSec; } }
 
     private GameObject[,] m_tileObjects = null;
+    private int m_levelIndex = 0;
 
     public void NextLevel() {
         Debug.Log( "Level complete!" );
+        ++m_levelIndex;
+        StartLevel();
         // TODO
+    }
+
+    private void StartLevel() {
+        for ( var x = 0; x < m_tileMap.size.x; ++x ) {
+            for ( var y = 0; y < m_tileMap.size.y; ++y ) {
+                if ( m_tileObjects[x, y] == null ) continue;
+
+                Destroy( m_tileObjects[x, y].gameObject );
+                m_tileObjects[x, y] = null;
+            }
+        }
+
+        m_tileMap.gameObject.SetActive( false );
+        if ( m_levelIndex >= m_levelTileMaps.Count ) {
+            m_tileMap = null;
+            return;
+        }
+
+        m_tileMap = m_levelTileMaps[m_levelIndex];
+        m_tileMap.gameObject.SetActive( true );
     }
 
     private TileComponent3d GetTileComponent3D( Vector2Int a_tilePos ) {
@@ -81,10 +108,17 @@ public class WorldGenerator : MonoBehaviour
     }
 
     private void Start() {
+        foreach ( var tileMap in m_levelTileMaps )
+            tileMap.gameObject.SetActive( false );
+
         m_tileObjects = new GameObject[m_tileMap.size.x, m_tileMap.size.y];
+        m_levelIndex = m_startLevelIndex;
+        StartLevel();
     }
 
     void Update() {
+        if ( m_tileMap == null ) return;
+
         UpdateTileObjects();
         UpdateFirePropogation();
     }
