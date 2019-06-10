@@ -6,6 +6,7 @@
 - exit implementation
 - more complex camera
 - fire tile (propogate to trees but never burns out unless wet)
+- layer sprites based on z axis (set layer = z)
 
 - burning trees animation
 - movement animations
