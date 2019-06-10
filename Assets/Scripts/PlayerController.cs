@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour,
     [Header("Casting")]
     [SerializeField] private ParticleSystem m_spellParticles = null;
     [SerializeField] private float m_spellCooldownTimeSec = 0f;
+    [SerializeField] private AudioClip m_spellCastSound = null;
 
     public PlayerType PlayerType {  get { return m_playerType; } }
 
@@ -103,7 +104,7 @@ public class PlayerController : MonoBehaviour,
 
         //Debug.Log( "Cast spell" );
 
-        //m_spellParticles.transform.Rotate( Vector3.up, FacingAngle );
+        AudioSource.PlayClipAtPoint( m_spellCastSound, transform.position );
         m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
         m_spellParticles.Play();
         m_timeSinceLastCastSec = 0f;
@@ -124,7 +125,17 @@ public class PlayerController : MonoBehaviour,
     private Vector2 m_stickInput = Vector2.zero;
 
     public void OnMove(InputAction.CallbackContext context) {
-        var move = context.ReadValue<Vector2>() * m_moveSpeed;
+        var move = context.ReadValue<Vector2>();
+        var move3d = new Vector3( move.x, 0f, move.y );
+
+        var cameraFocus = Camera.main.transform.parent;
+        if ( cameraFocus == null ) return;
+
+        var yRot = cameraFocus.rotation.eulerAngles.y;
+        move3d = Quaternion.AngleAxis( yRot, Vector3.up ) * move3d;
+        move = new Vector2( move3d.x, move3d.z );
+
+        move *= m_moveSpeed;
         if ( move.magnitude < Mathf.Epsilon ) {
             m_body.velocity = Vector3.zero;
             return;

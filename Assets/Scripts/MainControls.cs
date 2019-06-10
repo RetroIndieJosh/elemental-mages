@@ -394,6 +394,97 @@ public class MainControls : IInputActionCollection
                     ""modifiers"": """"
                 }
             ]
+        },
+        {
+            ""name"": ""Camera"",
+            ""id"": ""fe0e64f0-8af1-4400-8202-99e4eb72a2f4"",
+            ""actions"": [
+                {
+                    ""name"": ""Rotate"",
+                    ""id"": ""64424d38-b7e6-4887-8d3a-4140b171fb91"",
+                    ""expectedControlLayout"": """",
+                    ""continuous"": true,
+                    ""passThrough"": false,
+                    ""initialStateCheck"": false,
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""bindings"": []
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""108f7c62-d2f6-4b54-aac6-f4609e796e71"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""374144a3-e688-4876-9293-af633dfb103f"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""54dec1eb-a427-46bc-8b4d-b52718c7bc13"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""7b598c5c-a974-4abb-b9af-36a721fe6f71"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""d91747db-2760-448c-9733-092a33a8fd70"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""f9ea02cc-08c0-49c6-b3ab-98f27c49df27"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true,
+                    ""modifiers"": """"
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -408,6 +499,9 @@ public class MainControls : IInputActionCollection
         // Cast
         m_Cast = asset.GetActionMap("Cast");
         m_Cast_Cast = m_Cast.GetAction("Cast");
+        // Camera
+        m_Camera = asset.GetActionMap("Camera");
+        m_Camera_Rotate = m_Camera.GetAction("Rotate");
     }
 
     ~MainControls()
@@ -584,6 +678,46 @@ public class MainControls : IInputActionCollection
             return new CastActions(this);
         }
     }
+
+    // Camera
+    private InputActionMap m_Camera;
+    private ICameraActions m_CameraActionsCallbackInterface;
+    private InputAction m_Camera_Rotate;
+    public struct CameraActions
+    {
+        private MainControls m_Wrapper;
+        public CameraActions(MainControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Rotate { get { return m_Wrapper.m_Camera_Rotate; } }
+        public InputActionMap Get() { return m_Wrapper.m_Camera; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled { get { return Get().enabled; } }
+        public InputActionMap Clone() { return Get().Clone(); }
+        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+        public void SetCallbacks(ICameraActions instance)
+        {
+            if (m_Wrapper.m_CameraActionsCallbackInterface != null)
+            {
+                Rotate.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnRotate;
+                Rotate.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnRotate;
+                Rotate.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnRotate;
+            }
+            m_Wrapper.m_CameraActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                Rotate.started += instance.OnRotate;
+                Rotate.performed += instance.OnRotate;
+                Rotate.canceled += instance.OnRotate;
+            }
+        }
+    }
+    public CameraActions @Camera
+    {
+        get
+        {
+            return new CameraActions(this);
+        }
+    }
     public interface IMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -596,5 +730,9 @@ public class MainControls : IInputActionCollection
     public interface ICastActions
     {
         void OnCast(InputAction.CallbackContext context);
+    }
+    public interface ICameraActions
+    {
+        void OnRotate(InputAction.CallbackContext context);
     }
 }

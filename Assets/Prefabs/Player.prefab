@@ -4928,6 +4928,7 @@ MonoBehaviour:
   m_moveSpeed: 5
   m_spellParticles: {fileID: 5189523777075104187}
   m_spellCooldownTimeSec: 2
+  m_spellCastSound: {fileID: 8300000, guid: 0006acf8be411b345b65580ccecd9f7e, type: 3}
 --- !u!114 &5189523777933898157
 MonoBehaviour:
   m_ObjectHideFlags: 0
