@@ -10,11 +10,13 @@
 
 - remove debug numbers on trees
 
+- title screen
+- options
+
 # Wishlist
 - earth mage (water -> tree)
 - wind mage (blow fire across empty tiles)
 - water flows like a river, stopped by ice (overflow)
-- camera rotation
 
 # Music
 

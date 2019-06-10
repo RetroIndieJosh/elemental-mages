@@ -1,0 +1,11 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!49 &4900000
+TextAsset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BuildSettings
+  m_Script: '{"m_MinSize":{"x":350.0,"y":100.0},"m_MaxSize":{"x":4000.0,"y":4000.0},"m_TitleContent":{"m_Text":"Build
+    (JM Tools)","m_Image":{"instanceID":0},"m_Tooltip":""},"m_Pos":{"serializedVersion":"2","x":720.7999877929688,"y":440.0,"width":352.0,"height":355.0},"m_ViewDataDictionary":{"instanceID":0},"m_developmentBuild":true,"m_allLowercase":true,"m_buildPath":"build","m_butlerPath":"D:\\gamedev\\tools\\butler\\butler","m_executableName":"elemental-mages","m_extraFileList":[],"m_itchChannel":"elemental-mages","m_itchUserName":"joshua-mclean","m_noWhitespace":true,"m_sceneList":[{"instanceID":22714}],"m_selectedBuildTargetList":[19]}'
