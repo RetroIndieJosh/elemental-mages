@@ -14,7 +14,7 @@ public class WorldGenerator : MonoBehaviour
 
     [Header( "Levels" )]
     [SerializeField] private int m_startLevelIndex = 0;
-    [SerializeField] private List<Tilemap> m_levelTileMaps = new List<Tilemap>();
+    [SerializeField] private List<Level> m_levelList = new List<Level>();
 
     [Header("Prefabs")]
     [SerializeField] private GameObject m_exitPrefab = null;
@@ -31,28 +31,42 @@ public class WorldGenerator : MonoBehaviour
     [Header( "UI" )]
     [SerializeField] private TextMeshProUGUI m_mageInfoTextMesh = null;
 
-    public string MageInfo {
+    public bool CanCast {  get { return m_mana > 0; } }
+    public float FireBurnDownTimeSecTotal { get { return m_firePropogationTimeSec + m_fireBurnDownTimeSec; } }
+    public Tilemap TileMap {  get { return m_tileMap; } }
+
+    private string MageInfo {
         set {
             if ( m_mageInfoTextMesh == null ) return;
             m_mageInfoTextMesh.text = value;
         }
     }
 
-    public Tilemap TileMap {  get { return m_tileMap; } }
-
-    public float FireBurnDownTimeSecTotal { get { return m_firePropogationTimeSec + m_fireBurnDownTimeSec; } }
+    private Level CurrentLevel {
+        get {
+            if ( m_levelIndex < 0 || m_levelIndex >= m_levelList.Count )
+                return null;
+            return m_levelList[m_levelIndex];
+        }
+    }
 
     private GameObject[,] m_tileObjects = null;
     private int m_levelIndex = 0;
+    private int m_mana = 0;
 
     public void NextLevel() {
         Debug.Log( "Level complete!" );
         ++m_levelIndex;
         StartLevel();
-        // TODO
+    }
+
+    public void UseMana() {
+        --m_mana;
     }
 
     private void StartLevel() {
+        // unload previous
+
         for ( var x = 0; x < m_tileMap.size.x; ++x ) {
             for ( var y = 0; y < m_tileMap.size.y; ++y ) {
                 if ( m_tileObjects[x, y] == null ) continue;
@@ -63,16 +77,26 @@ public class WorldGenerator : MonoBehaviour
         }
 
         m_tileMap.gameObject.SetActive( false );
-        if ( m_levelIndex >= m_levelTileMaps.Count ) {
-            m_tileMap = null;
+
+        // load new
+
+        if( CurrentLevel == null ) {
+            Debug.LogError( $"No level {m_levelIndex}" );
             return;
         }
 
-        m_tileMap = m_levelTileMaps[m_levelIndex];
+        CurrentLevel.gameObject.SetActive( true );
+        m_tileMap = CurrentLevel.Map;
+        if( m_tileMap == null ) {
+            Debug.LogError( $"No tilemap in level {m_levelIndex} ({CurrentLevel.name})" );
+            return;
+        }
         m_tileMap.gameObject.SetActive( true );
 
+        Debug.Log( $"Load tilemap: {m_tileMap.name}" );
         PlayerController.DisableAll();
         UpdateTileObjects( true );
+        m_mana = CurrentLevel.StartMana;
     }
 
     private TileComponent3d GetTileComponent3D( Vector2Int a_tilePos ) {
@@ -126,8 +150,11 @@ public class WorldGenerator : MonoBehaviour
     }
 
     private void Start() {
-        foreach ( var tileMap in m_levelTileMaps )
-            tileMap.gameObject.SetActive( false );
+        foreach ( var level in m_levelList ) {
+            if( level.Map != null )
+                level.Map.gameObject.SetActive( false );
+            level.gameObject.SetActive( false );
+        }
 
         m_tileObjects = new GameObject[m_tileMap.size.x, m_tileMap.size.y];
         m_levelIndex = m_startLevelIndex;
@@ -140,19 +167,11 @@ public class WorldGenerator : MonoBehaviour
         UpdateTileObjects();
         UpdateFirePropogation();
 
-        Debug.Log( $"{PlayerController.ActiveMageCount} mages still active" );
         if ( PlayerController.ActiveMageCount == 0 )
             NextLevel();
 
-        var mageInfo = "";
-        foreach ( var mage in PlayerController.ActiveMageList ) {
-            if ( mage == PlayerController.activePlayer )
-                mageInfo += "<u>";
-            mageInfo += $"<color={mage.ColorString}>{mage.Mana}</color> ";
-            if ( mage == PlayerController.activePlayer )
-                mageInfo += "</u>";
-        }
-        MageInfo = mageInfo;
+        var mageCount = PlayerController.ActiveMageCount;
+        MageInfo = $"Level: {m_levelIndex + 1}\n{mageCount} Mages\nMana: {m_mana}";
     }
 
     private void PropogateFire( int a_x, int a_y ) {
@@ -196,9 +215,11 @@ public class WorldGenerator : MonoBehaviour
                     return null;
                 case TileType.StartFire:
                     PlayerController.ActivateMage( PlayerType.Fire, worldPos );
+                    Debug.Log( $"Fire start at {worldPos}" );
                     return null;
                 case TileType.StartWater:
                     PlayerController.ActivateMage( PlayerType.Water, worldPos );
+                    Debug.Log( $"Water start at {worldPos}" );
                     return null;
             }
         }

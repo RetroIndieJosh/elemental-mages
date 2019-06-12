@@ -81,8 +81,6 @@ public class PlayerController : MonoBehaviour,
         }
     }
 
-    public int Mana { get; private set; }
-
     private Facing m_facing = Facing.East;
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
@@ -95,8 +93,6 @@ public class PlayerController : MonoBehaviour,
         m_body = GetComponent<Rigidbody>();
         m_initialConstraints = m_body.constraints;
         s_mageList.Add( this );
-
-        Mana = 3;
     }
 
     private void OnDisable() {
@@ -149,7 +145,7 @@ public class PlayerController : MonoBehaviour,
     public void OnCast(InputAction.CallbackContext context ) {
         if ( m_timeSinceLastCastSec < m_spellCooldownTimeSec ) return;
         if ( context.performed == false ) return;
-        if ( Mana <= 0 ) return;
+        if ( WorldGenerator.instance.CanCast == false ) return;
 
         //Debug.Log( "Cast spell" );
 
@@ -157,7 +153,7 @@ public class PlayerController : MonoBehaviour,
         m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
         m_spellParticles.Play();
         m_timeSinceLastCastSec = 0f;
-        --Mana;
+        WorldGenerator.instance.UseMana();
 
         if ( Physics.Raycast( transform.position, m_spellParticles.transform.forward, out RaycastHit hit, 1f  ) ) {
             //Debug.Log( "Hit something" );

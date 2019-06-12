@@ -3,7 +3,7 @@
 - visual depiction for cooldown (UI or in player?)
 
 # Tech
-- set initial mana values per level
+- BUG fix mage input switch
 - mana pickup
 - figure out how to do animations
 - random grass/water tile generation (replace starting and exit with grass tile)
