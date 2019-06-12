@@ -21,6 +21,7 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] private GameObject m_firePrefab = null;
     [SerializeField] private GameObject m_treePrefab = null;
     [SerializeField] private GameObject m_waterPrefab = null;
+    [SerializeField] private GameObject m_manaPickupPrefab = null;
 
     [Header( "Game Balance" )]
     [SerializeField] private float m_firePropogationTimeSec = 0.5f;
@@ -53,6 +54,10 @@ public class WorldGenerator : MonoBehaviour
     private GameObject[,] m_tileObjects = null;
     private int m_levelIndex = 0;
     private int m_mana = 0;
+
+    public void AddMana(int a_mana ) {
+        m_mana += a_mana;
+    }
 
     public void NextLevel() {
         Debug.Log( "Level complete!" );
@@ -126,6 +131,7 @@ public class WorldGenerator : MonoBehaviour
         else if ( tile.TileType == TileType.Fire ) tileComp = tileObj.GetComponentInChildren<Fire>();
         else if ( tile.TileType == TileType.Tree ) tileComp = tileObj.GetComponentInChildren<Plant>();
         else if ( tile.TileType == TileType.Water ) tileComp = tileObj.GetComponentInChildren<Water>();
+        else if ( tile.TileType == TileType.ManaPickup ) tileComp = tileObj.GetComponentInChildren<ManaPickup>();
 
         return tileComp;
     }
@@ -236,6 +242,7 @@ public class WorldGenerator : MonoBehaviour
             case TileType.Fire: return CreateTileObject<Fire>( a_tilePos, m_firePrefab );
             case TileType.Tree: return CreateTileObject<Plant>( a_tilePos, m_treePrefab );
             case TileType.Water: return CreateTileObject<Water>( a_tilePos, m_waterPrefab );
+            case TileType.ManaPickup: return CreateTileObject<ManaPickup>( a_tilePos, m_manaPickupPrefab );
             default: return null;
         }
     }

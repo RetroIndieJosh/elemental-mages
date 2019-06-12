@@ -12,7 +12,8 @@ public enum TileType
     StartAir,
     StartEarth,
     StartFire,
-    StartWater
+    StartWater,
+    ManaPickup
 }
 
 [CreateAssetMenu]
