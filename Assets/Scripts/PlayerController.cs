@@ -41,6 +41,27 @@ public class PlayerController : MonoBehaviour,
 
     public PlayerType PlayerType {  get { return m_playerType; } }
 
+    static private List<PlayerController> s_mageList = new List<PlayerController>();
+
+    static public void DisableAll() {
+        var mageList = FindObjectsOfType<PlayerController>();
+        foreach ( var mage in mageList )
+            mage.gameObject.SetActive( false );
+    }
+
+    static public PlayerController GetMage(PlayerType a_type ) {
+        foreach ( var mage in s_mageList )
+            if ( mage.PlayerType == a_type )
+                return mage;
+        return null;
+    }
+
+    static public void ActivateMage( PlayerType a_type, Vector3 a_position ) {
+        var mage = GetMage( a_type );
+        mage.gameObject.SetActive( true );
+        mage.transform.position = a_position;
+    }
+
     private Facing m_facing = Facing.East;
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
@@ -52,6 +73,7 @@ public class PlayerController : MonoBehaviour,
     private void Awake() {
         m_body = GetComponent<Rigidbody>();
         m_initialConstraints = m_body.constraints;
+        s_mageList.Add( this );
     }
 
     private void OnDisable() {

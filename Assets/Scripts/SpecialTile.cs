@@ -8,7 +8,11 @@ public enum TileType
     Exit,
     Fire,
     Tree,
-    Water
+    Water,
+    StartAir,
+    StartEarth,
+    StartFire,
+    StartWater
 }
 
 [CreateAssetMenu]

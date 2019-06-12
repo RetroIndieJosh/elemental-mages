@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -57,6 +58,9 @@ public class WorldGenerator : MonoBehaviour
 
         m_tileMap = m_levelTileMaps[m_levelIndex];
         m_tileMap.gameObject.SetActive( true );
+
+        PlayerController.DisableAll();
+        UpdateTileObjects( true );
     }
 
     private TileComponent3d GetTileComponent3D( Vector2Int a_tilePos ) {
@@ -154,28 +158,44 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
-    private void UpdateTileObjects() {
+    private GameObject CreateTileObject( Vector3Int a_tilePos, TileType a_type, bool m_includeStartPositions = false ) {
+        if( m_includeStartPositions ) {
+            var worldPos = TileToWorldPos( a_tilePos );
+            switch ( a_type ) {
+                case TileType.StartAir:
+                    PlayerController.ActivateMage( PlayerType.Air, worldPos );
+                    return null;
+                case TileType.StartEarth:
+                    PlayerController.ActivateMage( PlayerType.Earth, worldPos );
+                    return null;
+                case TileType.StartFire:
+                    PlayerController.ActivateMage( PlayerType.Fire, worldPos );
+                    return null;
+                case TileType.StartWater:
+                    PlayerController.ActivateMage( PlayerType.Water, worldPos );
+                    return null;
+            }
+        }
+
+        switch( a_type ) {
+            case TileType.Exit: return CreateTileObject<Exit>( a_tilePos, m_exitPrefab );
+            case TileType.Fire: return CreateTileObject<Fire>( a_tilePos, m_firePrefab );
+            case TileType.Tree: return CreateTileObject<Plant>( a_tilePos, m_treePrefab );
+            case TileType.Water: return CreateTileObject<Water>( a_tilePos, m_waterPrefab );
+            default: return null;
+        }
+    }
+
+    private void UpdateTileObjects( bool a_initial = false ) {
         var startPos = m_tileMap.origin;
         var endPos = m_tileMap.origin + m_tileMap.size;
         var tilePos = startPos;
         for ( tilePos.x = startPos.x; tilePos.x <= endPos.x; ++tilePos.x ) {
             for ( tilePos.y = startPos.y; tilePos.y <= endPos.y; ++tilePos.y ) {
                 var tile = m_tileMap.GetTile( tilePos ) as SpecialTile;
-                if ( tile == null )
-                    continue;
+                if ( tile == null ) continue;
 
-                GameObject go = null;
-
-                if ( tile.TileType == TileType.Exit ) {
-                    go = CreateTileObject<Exit>( tilePos, m_exitPrefab );
-                } else if ( tile.TileType == TileType.Fire ) {
-                    go = CreateTileObject<Fire>( tilePos, m_firePrefab );
-                } else if ( tile.TileType == TileType.Tree ) {
-                    go = CreateTileObject<Plant>( tilePos, m_treePrefab );
-                } else if ( tile.TileType == TileType.Water ) {
-                    go = CreateTileObject<Water>( tilePos, m_waterPrefab );
-                }
-
+                GameObject go = CreateTileObject( tilePos, tile.TileType, a_initial );
                 if ( go == null ) continue;
 
                 var ix = tilePos.x - m_tileMap.origin.x;
@@ -198,11 +218,15 @@ public class WorldGenerator : MonoBehaviour
     private GameObject CreateTileObject<T>( Vector3Int a_tilePos, GameObject a_prefab ) where T: TileComponent3d {
         if ( CheckChanged<T>( a_tilePos ) == false ) return null;
 
-        var worldPos = m_tileMap.CellToWorld( a_tilePos ) + new Vector3( 0.5f, 0.5f, -0.5f );
+        var worldPos = TileToWorldPos( a_tilePos );
         var go = Instantiate( a_prefab, worldPos, Quaternion.identity );
         var comp = go.GetComponentInChildren<T>();
         comp.tilePos = a_tilePos;
 
         return go;
+    }
+
+    private Vector3 TileToWorldPos( Vector3Int a_tilePos ) {
+        return m_tileMap.CellToWorld( a_tilePos ) + new Vector3( 0.5f, 0.5f, -0.5f );
     }
 }
