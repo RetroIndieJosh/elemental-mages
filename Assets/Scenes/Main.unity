@@ -2494,6 +2494,11 @@ MonoBehaviour:
   m_firePropogationTimeSec: 2
   m_fireBurnDownTimeSec: 2
   m_mageInfoTextMesh: {fileID: 68549023}
+  m_grassTileList:
+  - {fileID: 11400000, guid: 3dab5d6ca6e46d84fa0a59ce8e42d414, type: 2}
+  - {fileID: 11400000, guid: 0ec789a6584d2754794594dedabfa960, type: 2}
+  - {fileID: 11400000, guid: e4c09d39fc5d907439345d9d531d2a9f, type: 2}
+  - {fileID: 11400000, guid: 1928b3da5f4fcff4bb9886695cf323fe, type: 2}
 --- !u!4 &1080379517
 Transform:
   m_ObjectHideFlags: 0

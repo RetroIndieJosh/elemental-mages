@@ -1,7 +1,6 @@
 # Art
 
 # Tech
-- mana pickup
 - random grass/water tile generation (replace starting and exit with grass tile)
 - walls as tilemaps
 - fix camera
