@@ -11,7 +11,7 @@ public class Exit : TileComponent3d
             return;
 
         if( PlayerController.activePlayer == player ) {
-            PlayerController.ActivatePlayer( 1 );
+            PlayerController.ControlPlayer( 1 );
         }
         player.gameObject.SetActive( false );
     }

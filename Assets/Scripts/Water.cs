@@ -43,6 +43,8 @@ public class Water : TileComponent3d
     }
 
     private void Update() {
+        if ( PlayerController.activePlayer == null ) return;
+
         bool canFreeze = PlayerController.activePlayer.PlayerType == PlayerType.Water 
             && WorldGenerator.instance.CanCast;
         m_collider.isTrigger = m_isIce || canFreeze;

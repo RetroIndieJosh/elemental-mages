@@ -28,6 +28,8 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
     }
 
     private void Update() {
+        if ( PlayerController.activePlayer == null ) return;
+
         var playerPos = PlayerController.activePlayer.transform.position;
         var y = transform.parent.position.y;
         transform.parent.position = new Vector3( playerPos.x, y, playerPos.z );

@@ -13,6 +13,8 @@ public class Wall : MonoBehaviour
     }
 
     void Update() {
+        if ( PlayerController.activePlayer == null ) return;
+
         m_material.color = Color.white;
 
         var camPos = Camera.main.transform.position;

@@ -1,13 +1,12 @@
 # Art
-- burned ground tile
-- visual depiction for cooldown (UI or in player?)
 
 # Tech
 - BUG fix mage input switch
 - mana pickup
-- figure out how to do animations
 - random grass/water tile generation (replace starting and exit with grass tile)
 - walls as tilemaps
+- figure out how to do animations
+- visual cast cooldown in UI (bar?) or player (color?)
 
 - burning trees animation
 - movement animations

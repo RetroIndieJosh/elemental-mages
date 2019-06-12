@@ -97,6 +97,13 @@ public class WorldGenerator : MonoBehaviour
         PlayerController.DisableAll();
         UpdateTileObjects( true );
         m_mana = CurrentLevel.StartMana;
+
+        var startPlayer = PlayerController.GetMage( CurrentLevel.StartPlayerType );
+        if( startPlayer == null ) {
+            Debug.LogError( $"Cannot start with player of type {CurrentLevel.StartPlayerType} - there is none" );
+            return;
+        }
+        PlayerController.ControlPlayer( startPlayer );
     }
 
     private TileComponent3d GetTileComponent3D( Vector2Int a_tilePos ) {

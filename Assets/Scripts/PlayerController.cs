@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour,
         return null;
     }
 
-    [SerializeField] private bool m_isInitialPlayer = false;
     [SerializeField] private PlayerType m_playerType = PlayerType.Fire;
     [SerializeField] private float m_moveSpeed = 5f;
 
@@ -117,13 +116,6 @@ public class PlayerController : MonoBehaviour,
 
         m_body.constraints = m_initialConstraints;
         Camera.main.GetComponent<CameraMover>().TargetFocus = gameObject;
-    }
-
-    private void Start() {
-        if ( m_isInitialPlayer ) {
-            activePlayer = this;
-            ActivatePlayer( 0 );
-        }
     }
 
     private void Update() {
@@ -204,35 +196,42 @@ public class PlayerController : MonoBehaviour,
     }
 
     public void OnNextPlayer( InputAction.CallbackContext context ) {
-        ActivatePlayer( -1 );
+        ControlPlayer( -1 );
     }
 
     public void OnPrevPlayer( InputAction.CallbackContext context ) {
-        ActivatePlayer( 1 );
+        ControlPlayer( 1 );
     }
 
-    static public void ActivatePlayer(int a_indexChange ) {
+    static public void ControlPlayer( PlayerController a_player ) {
+        foreach ( var player in ActiveMageList )
+            player.enabled = false;
+
+        // deactivate previous
+        if ( activePlayer != null ) {
+            activePlayer.m_body.velocity = Vector3.zero;
+            activePlayer.enabled = false;
+        }
+
+        // enable new
+        activePlayer = a_player;
+        activePlayer.enabled = true;
+
+        Debug.Log( $"New player: {activePlayer.name}" );
+    }
+
+    static public void ControlPlayer(int a_indexChange ) {
+        if ( a_indexChange == 0 ) return;
+
         if( activePlayer == null ) {
             Debug.LogError( "Tried to change active player with relative index but no active player" );
             return;
         }
 
-        var list = s_mageList;
-        foreach ( var player in list )
-            player.enabled = false;
+        var list = ActiveMageList;
 
-        if ( a_indexChange != 0 ) {
-            var index = ( list.IndexOf( activePlayer ) + a_indexChange ) % list.Count;
-            if ( index < 0 ) index += list.Count;
-
-            activePlayer.m_body.velocity = Vector3.zero;
-
-            activePlayer.enabled = false;
-            activePlayer = list[index];
-        }
-
-        activePlayer.enabled = true;
-
-        //Debug.Log( $"New player: {activePlayer.name}" );
+        var index = ( list.IndexOf( activePlayer ) + a_indexChange ) % list.Count;
+        if ( index < 0 ) index += list.Count;
+        ControlPlayer( list[index] );
     }
 }
