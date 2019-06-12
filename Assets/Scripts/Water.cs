@@ -21,8 +21,13 @@ public class Water : TileComponent3d
     private bool m_isIce = false;
 
     private void OnTriggerEnter( Collider other ) {
+        if ( m_isIce ) return;
+
         WorldGenerator.instance.TileMap.SetTile( tilePos, iceTile );
         m_isIce = true;
+
+        // freezing water uses mana
+        WorldGenerator.instance.UseMana();
     }
 
     private void OnTriggerExit( Collider other ) {
@@ -38,7 +43,9 @@ public class Water : TileComponent3d
     }
 
     private void Update() {
-        m_collider.isTrigger = m_isIce || ( PlayerController.activePlayer.PlayerType == PlayerType.Water );
+        bool canFreeze = PlayerController.activePlayer.PlayerType == PlayerType.Water 
+            && WorldGenerator.instance.CanCast;
+        m_collider.isTrigger = m_isIce || canFreeze;
     }
 
     public override void Burn() { }
