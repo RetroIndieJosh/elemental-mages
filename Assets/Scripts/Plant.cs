@@ -24,9 +24,12 @@ public class Plant : TileComponent3d
 
     public float BurnTime { get; private set; }
 
+    private Animator m_animator = null;
+
     override public void Burn() {
         if ( PlantState != PlantState.Normal ) return;
 
+        m_animator.SetBool( "isBurning", true );
         GetComponent<SpriteRenderer>().sprite = m_burningSprite;
         PlantState = PlantState.Burning;
         BurnTime = 0f;
@@ -40,6 +43,7 @@ public class Plant : TileComponent3d
     }
 
     private void Awake() {
+        m_animator = GetComponent<Animator>();
         PlantState = PlantState.Normal;
     }
 
@@ -53,6 +57,7 @@ public class Plant : TileComponent3d
             PlantState = PlantState.BurnedDown;
             GetComponentInParent<Collider>().isTrigger = true;
             GetComponent<SpriteRenderer>().sprite = null;
+            m_animator.SetBool( "isBurnedDown", true );
             // TODO modify floor tile?
         }
     }
