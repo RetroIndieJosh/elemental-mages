@@ -3,8 +3,6 @@
 - visual depiction for cooldown (UI or in player?)
 
 # Tech
-- fix place mage start positions 
-- hide unused mages
 - only finish level if all active mages are finished
 - track mana
 - display mana

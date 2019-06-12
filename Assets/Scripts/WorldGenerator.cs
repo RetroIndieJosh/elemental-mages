@@ -127,6 +127,10 @@ public class WorldGenerator : MonoBehaviour
 
         UpdateTileObjects();
         UpdateFirePropogation();
+
+        Debug.Log( $"{PlayerController.ActiveMageCount} mages still active" );
+        if ( PlayerController.ActiveMageCount == 0 )
+            NextLevel();
     }
 
     private void PropogateFire( int a_x, int a_y ) {

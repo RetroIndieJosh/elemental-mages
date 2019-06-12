@@ -30,18 +30,21 @@ public class PlayerController : MonoBehaviour,
 {
     static public PlayerController activePlayer = null;
 
-    [SerializeField] private bool m_isInitialPlayer = false;
-    [SerializeField] private PlayerType m_playerType = PlayerType.Fire;
-    [SerializeField] private float m_moveSpeed = 5f;
+    static public int ActiveMageCount { get { return ActiveMageList.Count; } }
 
-    [Header("Casting")]
-    [SerializeField] private ParticleSystem m_spellParticles = null;
-    [SerializeField] private float m_spellCooldownTimeSec = 0f;
-    [SerializeField] private AudioClip m_spellCastSound = null;
-
-    public PlayerType PlayerType {  get { return m_playerType; } }
+    static public List<PlayerController> ActiveMageList {
+        get {
+            return FindObjectsOfType<PlayerController>().ToList();
+        }
+    }
 
     static private List<PlayerController> s_mageList = new List<PlayerController>();
+
+    static public void ActivateMage( PlayerType a_type, Vector3 a_position ) {
+        var mage = GetMage( a_type );
+        mage.gameObject.SetActive( true );
+        mage.transform.position = a_position;
+    }
 
     static public void DisableAll() {
         var mageList = FindObjectsOfType<PlayerController>();
@@ -56,11 +59,16 @@ public class PlayerController : MonoBehaviour,
         return null;
     }
 
-    static public void ActivateMage( PlayerType a_type, Vector3 a_position ) {
-        var mage = GetMage( a_type );
-        mage.gameObject.SetActive( true );
-        mage.transform.position = a_position;
-    }
+    [SerializeField] private bool m_isInitialPlayer = false;
+    [SerializeField] private PlayerType m_playerType = PlayerType.Fire;
+    [SerializeField] private float m_moveSpeed = 5f;
+
+    [Header("Casting")]
+    [SerializeField] private ParticleSystem m_spellParticles = null;
+    [SerializeField] private float m_spellCooldownTimeSec = 0f;
+    [SerializeField] private AudioClip m_spellCastSound = null;
+
+    public PlayerType PlayerType {  get { return m_playerType; } }
 
     private Facing m_facing = Facing.East;
     private Rigidbody m_body = null;
@@ -101,8 +109,10 @@ public class PlayerController : MonoBehaviour,
     }
 
     private void Start() {
-        if( m_isInitialPlayer )
+        if ( m_isInitialPlayer ) {
+            activePlayer = this;
             ActivatePlayer( 0 );
+        }
     }
 
     private void Update() {
@@ -188,21 +198,24 @@ public class PlayerController : MonoBehaviour,
         ActivatePlayer( 1 );
     }
 
-    private void ActivatePlayer(int a_indexChange ) {
-        var list = FindObjectsOfType<PlayerController>().ToList();
+    static public void ActivatePlayer(int a_indexChange ) {
+        if( activePlayer == null ) {
+            Debug.LogError( "Tried to change active player with relative index but no active player" );
+            return;
+        }
+
+        var list = s_mageList;
         foreach ( var player in list )
             player.enabled = false;
 
         if ( a_indexChange != 0 ) {
-            var index = ( list.IndexOf( this ) + a_indexChange ) % list.Count;
+            var index = ( list.IndexOf( activePlayer ) + a_indexChange ) % list.Count;
             if ( index < 0 ) index += list.Count;
 
-            m_body.velocity = Vector3.zero;
+            activePlayer.m_body.velocity = Vector3.zero;
 
-            enabled = false;
+            activePlayer.enabled = false;
             activePlayer = list[index];
-        } else {
-            activePlayer = this;
         }
 
         activePlayer.enabled = true;

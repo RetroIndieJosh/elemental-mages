@@ -5,10 +5,15 @@ using UnityEngine;
 public class Exit : TileComponent3d
 {
     private void OnTriggerEnter( Collider a_collider ) {
-        if ( a_collider.GetComponent<PlayerController>() != PlayerController.activePlayer )
+        var player = a_collider.GetComponent<PlayerController>();
+        
+        if( player == null )
             return;
 
-        WorldGenerator.instance.NextLevel();
+        if( PlayerController.activePlayer == player ) {
+            PlayerController.ActivatePlayer( 1 );
+        }
+        player.gameObject.SetActive( false );
     }
 
     public override void Burn() { }
