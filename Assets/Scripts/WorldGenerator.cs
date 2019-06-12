@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using TMPro;
+using JoshuaMcLean;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -25,6 +27,16 @@ public class WorldGenerator : MonoBehaviour
 
     [SerializeField, Tooltip("In addition to propogation time") ]
     private float m_fireBurnDownTimeSec = 0.5f;
+
+    [Header( "UI" )]
+    [SerializeField] private TextMeshProUGUI m_mageInfoTextMesh = null;
+
+    public string MageInfo {
+        set {
+            if ( m_mageInfoTextMesh == null ) return;
+            m_mageInfoTextMesh.text = value;
+        }
+    }
 
     public Tilemap TileMap {  get { return m_tileMap; } }
 
@@ -131,6 +143,16 @@ public class WorldGenerator : MonoBehaviour
         Debug.Log( $"{PlayerController.ActiveMageCount} mages still active" );
         if ( PlayerController.ActiveMageCount == 0 )
             NextLevel();
+
+        var mageInfo = "";
+        foreach ( var mage in PlayerController.ActiveMageList ) {
+            if ( mage == PlayerController.activePlayer )
+                mageInfo += "<u>";
+            mageInfo += $"<color={mage.ColorString}>{mage.Mana}</color> ";
+            if ( mage == PlayerController.activePlayer )
+                mageInfo += "</u>";
+        }
+        MageInfo = mageInfo;
     }
 
     private void PropogateFire( int a_x, int a_y ) {

@@ -3,9 +3,7 @@
 - visual depiction for cooldown (UI or in player?)
 
 # Tech
-- only finish level if all active mages are finished
-- track mana
-- display mana
+- set initial mana values per level
 - mana pickup
 - figure out how to do animations
 - random grass/water tile generation (replace starting and exit with grass tile)

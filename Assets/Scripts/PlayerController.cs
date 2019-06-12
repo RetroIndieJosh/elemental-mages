@@ -63,17 +63,30 @@ public class PlayerController : MonoBehaviour,
     [SerializeField] private PlayerType m_playerType = PlayerType.Fire;
     [SerializeField] private float m_moveSpeed = 5f;
 
-    [Header("Casting")]
+    [Header( "Casting" )]
     [SerializeField] private ParticleSystem m_spellParticles = null;
     [SerializeField] private float m_spellCooldownTimeSec = 0f;
     [SerializeField] private AudioClip m_spellCastSound = null;
 
     public PlayerType PlayerType {  get { return m_playerType; } }
+    public string ColorString {
+        get {
+            switch ( PlayerType ) {
+                case PlayerType.Air: return "yellow";
+                case PlayerType.Earth: return "gree";
+                case PlayerType.Fire: return "red";
+                case PlayerType.Water: return "blue";
+                default: return "white";
+            }
+        }
+    }
+
+    public int Mana { get; private set; }
 
     private Facing m_facing = Facing.East;
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
-    private float m_timeSinceLastCastSec = 0f;
+    private float m_timeSinceLastCastSec = Mathf.Infinity;
     private Vector2 m_stickInput = Vector2.zero;
 
     private RigidbodyConstraints m_initialConstraints = RigidbodyConstraints.None;
@@ -82,6 +95,8 @@ public class PlayerController : MonoBehaviour,
         m_body = GetComponent<Rigidbody>();
         m_initialConstraints = m_body.constraints;
         s_mageList.Add( this );
+
+        Mana = 3;
     }
 
     private void OnDisable() {
@@ -134,6 +149,7 @@ public class PlayerController : MonoBehaviour,
     public void OnCast(InputAction.CallbackContext context ) {
         if ( m_timeSinceLastCastSec < m_spellCooldownTimeSec ) return;
         if ( context.performed == false ) return;
+        if ( Mana <= 0 ) return;
 
         //Debug.Log( "Cast spell" );
 
@@ -141,6 +157,7 @@ public class PlayerController : MonoBehaviour,
         m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
         m_spellParticles.Play();
         m_timeSinceLastCastSec = 0f;
+        --Mana;
 
         if ( Physics.Raycast( transform.position, m_spellParticles.transform.forward, out RaycastHit hit, 1f  ) ) {
             //Debug.Log( "Hit something" );
