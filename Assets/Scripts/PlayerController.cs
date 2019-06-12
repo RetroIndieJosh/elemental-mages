@@ -115,7 +115,10 @@ public class PlayerController : MonoBehaviour,
         m_mainControls.Enable();
 
         m_body.constraints = m_initialConstraints;
-        Camera.main.GetComponent<CameraMover>().TargetFocus = gameObject;
+    }
+
+    private void FixedUpdate() {
+        m_body.velocity = new Vector3( m_move.x, 0f, m_move.y );
     }
 
     private void Update() {
@@ -160,27 +163,24 @@ public class PlayerController : MonoBehaviour,
         }
     }
 
+    private Vector2 m_move = Vector2.zero;
+
     public void OnMove(InputAction.CallbackContext context) {
         var move = context.ReadValue<Vector2>();
         var move3d = new Vector3( move.x, 0f, move.y );
 
-        var cameraFocus = Camera.main.transform.parent;
-        if ( cameraFocus == null ) return;
-
-        var yRot = cameraFocus.rotation.eulerAngles.y;
+        var yRot = CameraController.instance.Rotation;
         move3d = Quaternion.AngleAxis( yRot, Vector3.up ) * move3d;
-        move = new Vector2( move3d.x, move3d.z );
+        m_move = new Vector2( move3d.x, move3d.z );
 
-        move *= m_moveSpeed;
+        m_move *= m_moveSpeed;
         if ( move.magnitude < Mathf.Epsilon ) {
-            m_body.velocity = Vector3.zero;
+            m_move = Vector2.zero;
             return;
         } 
 
         // remember our last move input for casting direction
-        m_stickInput = move;
-
-        m_body.velocity = new Vector3( move.x, 0f, move.y );
+        m_stickInput = m_move;
 
         var prevFacing = m_facing;
 

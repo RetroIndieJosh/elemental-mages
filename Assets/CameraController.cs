@@ -5,35 +5,44 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour, MainControls.ICameraActions
 {
-    [SerializeField] Vector3 m_distance = Vector3.zero;
+    static public CameraController instance = null;
+
+    [SerializeField] private Vector3 m_distance = Vector3.zero;
+    [SerializeField] private float m_moveSpeed = 1f;
+    [SerializeField] private float m_dampSpeed = 0.3f;
+
+    public float Rotation { get; private set; }
 
     private MainControls m_mainControls = null;
 
     public void OnRotate( InputAction.CallbackContext context ) {
         var move = context.ReadValue<float>();
-        transform.parent.Rotate( Vector3.up, move );
+        //transform.parent.Rotate( Vector3.up, move );
+        Rotation += move;
     }
 
     private void Awake() {
-        if( transform.parent == null ) {
-            Debug.LogError( $"[CameraController] Parent origin missing; please make {name} a child of a GameObject; " +
-                $"destroying" );
-            Destroy( this );
-            return;
-        }
+        instance = this;
+        Rotation = 0f;
 
         m_mainControls = new MainControls();
         m_mainControls.Camera.SetCallbacks( this );
         m_mainControls.Enable();
     }
 
-    private void Update() {
+    Vector3 m_velocity = Vector3.zero;
+    Vector3 m_rotateVelocity = Vector3.zero;
+
+    private void LateUpdate() {
         if ( PlayerController.activePlayer == null ) return;
 
-        var playerPos = PlayerController.activePlayer.transform.position;
-        var y = transform.parent.position.y;
-        transform.parent.position = new Vector3( playerPos.x, y, playerPos.z );
+        var targetLookPos = PlayerController.activePlayer.transform.position;
 
-        transform.LookAt( playerPos );
+        var rotation = Quaternion.AngleAxis( Rotation, Vector3.up );
+        var targetMovePos = targetLookPos + rotation * m_distance;
+
+        transform.position = Vector3.SmoothDamp( transform.position, targetMovePos, ref m_velocity, m_dampSpeed );
+
+        transform.LookAt( targetLookPos );
     }
 }

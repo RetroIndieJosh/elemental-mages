@@ -25,13 +25,9 @@ public class Wall : MonoBehaviour
         if ( Physics.Raycast( camPos, direction, out RaycastHit hitInfo ) == false )
             return;
 
-        Debug.Log( $"Hit {hitInfo.collider.name} on the way to player from camera" );
         if ( hitInfo.collider.gameObject == gameObject ) {
             var color = m_tileMap.color;
             m_tileMap.color = new Color( color.r, color.g, color.b, 0.5f );
-            Debug.Log( "...it's the wall!" );
-        } else {
-            Debug.Log( "...it's not the wall" );
         }
     }
 }

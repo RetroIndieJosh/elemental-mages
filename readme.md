@@ -1,7 +1,6 @@
 # Art
 
 # Tech
-- walls as tilemaps
 - fix camera
 - figure out how to do animations
 - visual cast cooldown in UI (bar?) or player (color?)
