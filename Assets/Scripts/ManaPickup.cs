@@ -15,7 +15,8 @@ public class ManaPickup : TileComponent3d
 
         WorldGenerator.instance.AddMana( m_manaCount );
         GetComponentInChildren<Collider>().enabled = false;
-        GetComponentInChildren<SpriteRenderer>().enabled = false;
+        //GetComponentInChildren<SpriteRenderer>().enabled = false;
+        GetComponentInChildren<MeshRenderer>().enabled = false;
         m_taken = true;
     }
 
@@ -24,4 +25,8 @@ public class ManaPickup : TileComponent3d
     }
 
     public override void Wet() { }
+
+    private void Update() {
+        transform.Rotate( Vector3.one, -100f * Time.deltaTime );
+    }
 }

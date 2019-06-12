@@ -1,11 +1,11 @@
 # Art
 
 # Tech
-- random grass/water tile generation (replace starting and exit with grass tile)
 - walls as tilemaps
 - fix camera
 - figure out how to do animations
 - visual cast cooldown in UI (bar?) or player (color?)
+- randomized water tiles
 
 - burning trees animation
 - movement animations
@@ -17,6 +17,8 @@
 
 - title screen
 - options
+
+- pickup mana sound
 
 # Wishlist
 - earth mage (water -> tree)

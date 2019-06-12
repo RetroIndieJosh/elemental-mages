@@ -116,22 +116,25 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] List<Tile> m_grassTileList = new List<Tile>();
 
     private void RandomizeTerrain() {
-        var count = 0;
         for ( var x = 0; x < m_tileMap.size.x; ++x ) {
             for ( var y = 0; y < m_tileMap.size.y; ++y ) {
                 var pos = new Vector3Int( x, y, 0 ) + m_tileMap.origin;
                 var tile = m_tileMap.GetTile( pos );
                 if ( tile == null ) continue;
-                if ( tile is SpecialTile ) continue;
 
-                ++count;
+                var specialTile = tile as SpecialTile;
+                if ( specialTile != null ) {
+                    switch( specialTile.TileType ) {
+                        case TileType.Tree:
+                        case TileType.Water: continue;
+                    }
+                }
 
                 var i = Random.Range( 0, m_grassTileList.Count );
                 var newTile = m_grassTileList[i];
                 m_tileMap.SetTile( pos, newTile );
             }
         }
-        Debug.Log( $"Found {count} grass tiles" );
     }
 
     private TileComponent3d GetTileComponent3D( Vector2Int a_tilePos ) {
