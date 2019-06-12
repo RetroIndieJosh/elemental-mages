@@ -29,10 +29,12 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField, Tooltip("In addition to propogation time") ]
     private float m_fireBurnDownTimeSec = 0.5f;
 
-    [Header( "UI" )]
+    [Header( "UI & Visuals" )]
     [SerializeField] private TextMeshProUGUI m_mageInfoTextMesh = null;
+    [SerializeField] private float m_mageAnimateSpeed = 0.5f;
 
     public bool CanCast {  get { return m_mana > 0; } }
+    public float MageAnimateSpeed {  get { return m_mageAnimateSpeed; } }
     public float FireBurnDownTimeSecTotal { get { return m_firePropogationTimeSec + m_fireBurnDownTimeSec; } }
     public Tilemap TileMap {  get { return m_tileMap; } }
 

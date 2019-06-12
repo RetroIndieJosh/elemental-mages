@@ -14,15 +14,6 @@ public enum PlayerType
 }
 
 
-public enum Facing
-{
-    East,
-    North,
-    South,
-    West
-}
-
-
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour, 
@@ -80,11 +71,12 @@ public class PlayerController : MonoBehaviour,
         }
     }
 
-    private Facing m_facing = Facing.East;
+    private bool m_flipZ = false;
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
     private float m_timeSinceLastCastSec = Mathf.Infinity;
     private Vector2 m_stickInput = Vector2.zero;
+    private Animator m_animator = null;
 
     private RigidbodyConstraints m_initialConstraints = RigidbodyConstraints.None;
 
@@ -92,6 +84,7 @@ public class PlayerController : MonoBehaviour,
         m_body = GetComponent<Rigidbody>();
         m_initialConstraints = m_body.constraints;
         s_mageList.Add( this );
+        m_animator = GetComponentInChildren<Animator>();
     }
 
     private void OnDisable() {
@@ -121,20 +114,16 @@ public class PlayerController : MonoBehaviour,
         m_body.velocity = new Vector3( m_move.x, 0f, m_move.y );
     }
 
+    private void Start() {
+        m_animator.SetFloat( "animSpeed", WorldGenerator.instance.MageAnimateSpeed );
+    }
+
     private void Update() {
         m_timeSinceLastCastSec += Time.deltaTime;
     }
 
-    private float FacingAngle {
-        get {
-            switch( m_facing ) {
-                case Facing.East: return 270f;
-                case Facing.North: return 0f;
-                case Facing.South: return 180f;
-                case Facing.West: return 90f;
-                default: return 0f;
-            }
-        }
+    IEnumerator StopCastAnimation() {
+        yield return new WaitForSeconds( m_spellParticles.main.startLifetime.constant );
     }
 
     public void OnCast(InputAction.CallbackContext context ) {
@@ -149,6 +138,8 @@ public class PlayerController : MonoBehaviour,
         m_spellParticles.Play();
         m_timeSinceLastCastSec = 0f;
         WorldGenerator.instance.UseMana();
+        if( m_flipZ ) m_animator.Play( "Cast Back" );
+        else m_animator.Play( "Cast" );
 
         if ( Physics.Raycast( transform.position, m_spellParticles.transform.forward, out RaycastHit hit, 1f  ) ) {
             //Debug.Log( "Hit something" );
@@ -176,23 +167,22 @@ public class PlayerController : MonoBehaviour,
         m_move *= m_moveSpeed;
         if ( move.magnitude < Mathf.Epsilon ) {
             m_move = Vector2.zero;
+
+            if ( m_flipZ ) m_animator.Play( "Idle Back" );
+            else m_animator.Play( "Idle" );
+
             return;
         } 
 
         // remember our last move input for casting direction
         m_stickInput = m_move;
 
-        var prevFacing = m_facing;
+        m_flipZ = move.y > Mathf.Epsilon;
 
-        if ( move.y > Mathf.Epsilon ) m_facing = Facing.North;
-        else if ( move.y < -Mathf.Epsilon ) m_facing = Facing.South;
-        else if ( move.x > Mathf.Epsilon ) m_facing = Facing.East;
-        else m_facing = Facing.West;
+        if ( m_flipZ ) m_animator.Play( "Walk Back" );
+        else m_animator.Play( "Walk" );
 
-        var wasFacingWest = prevFacing == Facing.West && m_facing != Facing.East;
-        GetComponentInChildren<SpriteRenderer>().flipX = m_facing == Facing.West || wasFacingWest;
-
-        //Debug.Log( $"Facing {m_facing}" );
+        GetComponentInChildren<SpriteRenderer>().flipX = move.x < -Mathf.Epsilon;
     }
 
     public void OnNextPlayer( InputAction.CallbackContext context ) {
@@ -209,6 +199,7 @@ public class PlayerController : MonoBehaviour,
 
         // deactivate previous
         if ( activePlayer != null ) {
+            activePlayer.m_move = Vector2.zero;
             activePlayer.m_body.velocity = Vector3.zero;
             activePlayer.enabled = false;
         }

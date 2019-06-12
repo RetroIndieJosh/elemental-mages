@@ -8,15 +8,12 @@
 - randomize water tiles
 - randomize ice tiles
 - randomize wall tiles
-- place grass edges and ignore for randomizing
 
-- burning trees animation
-- movement animations
-- idle animations
-- wall graphics
-- exit portal
+- water animation (wrap?)
 
-- remove debug numbers on trees
+- lock in place when casting
+- end cast animation when casting ends
+- adjust movement direction while changing camera angle if movement held
 
 - title screen
 - options
@@ -29,6 +26,7 @@
 - water flows like a river, stopped by ice (overflow)
 
 ## Sound
+- "can't cast"
 - water casting (differ from fire)
 - burning trees
 - flowing water
