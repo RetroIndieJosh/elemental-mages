@@ -8,7 +8,7 @@
 - display mana
 - mana pickup
 - figure out how to do animations
-- random grass/water tile generation
+- random grass/water tile generation (replace starting and exit with grass tile)
 - walls as tilemaps
 
 - burning trees animation
