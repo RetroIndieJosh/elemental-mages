@@ -5,7 +5,10 @@
 - fix camera
 - figure out how to do animations
 - visual cast cooldown in UI (bar?) or player (color?)
-- randomized water tiles
+- randomize water tiles
+- randomize ice tiles
+- randomize wall tiles
+- place grass edges and ignore for randomizing
 
 - burning trees animation
 - movement animations

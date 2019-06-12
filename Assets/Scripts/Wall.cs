@@ -1,21 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Wall))]
 public class Wall : MonoBehaviour
 {
-    private Material m_material = null;
+    private Tilemap m_tileMap = null;
 
     private void Awake() {
-        m_material = GetComponent<MeshRenderer>().material;
+        m_tileMap = GetComponent<Tilemap>();
     }
 
     void Update() {
         if ( PlayerController.activePlayer == null ) return;
 
-        m_material.color = Color.white;
+        m_tileMap.color = Color.white;
 
         var camPos = Camera.main.transform.position;
         var playerPos = PlayerController.activePlayer.transform.position;
@@ -24,9 +25,13 @@ public class Wall : MonoBehaviour
         if ( Physics.Raycast( camPos, direction, out RaycastHit hitInfo ) == false )
             return;
 
+        Debug.Log( $"Hit {hitInfo.collider.name} on the way to player from camera" );
         if ( hitInfo.collider.gameObject == gameObject ) {
-            var color = m_material.color;
-            m_material.color = new Color( color.r, color.g, color.b, 0.5f );
+            var color = m_tileMap.color;
+            m_tileMap.color = new Color( color.r, color.g, color.b, 0.5f );
+            Debug.Log( "...it's the wall!" );
+        } else {
+            Debug.Log( "...it's not the wall" );
         }
     }
 }

@@ -58,16 +58,16 @@ TextureImporter:
     second: textures_17
   - first:
       213: -9061899194555239441
-    second: textures_18
+    second: grass-edge_0
   - first:
       213: -3192481574216830570
-    second: textures_19
+    second: grass-edge_1
   - first:
       213: 4990925705678332317
-    second: textures_20
+    second: grass-edge_2
   - first:
       213: 2339177042903702161
-    second: textures_21
+    second: grass-edge_3
   - first:
       213: -8160219895148158369
     second: water_4
@@ -82,16 +82,16 @@ TextureImporter:
     second: ice_5
   - first:
       213: -2412921342433868664
-    second: textures_26
+    second: grass-corner-se_0
   - first:
       213: -8047440114726629670
-    second: textures_27
+    second: grass-corner-sw_0
   - first:
       213: -8712980162114236082
-    second: textures_28
+    second: grass-corner-se_1
   - first:
       213: -1044271769314739186
-    second: textures_29
+    second: grass-corner-sw_1
   - first:
       213: 5061452969457383288
     second: textures_30
@@ -106,64 +106,64 @@ TextureImporter:
     second: ice_7
   - first:
       213: 4471711845515963454
-    second: textures_34
+    second: grass-corner-ne_0
   - first:
       213: -5842249252252287194
-    second: textures_35
+    second: grass-corner-nw_0
   - first:
       213: -9195441692878950250
-    second: textures_36
+    second: grass-corner-ne_1
   - first:
       213: -2124277422249230677
-    second: textures_37
+    second: grass-corner-nw_1
   - first:
       213: -7026837110550415580
-    second: textures_38
+    second: burned_0
   - first:
       213: 5437396510128130459
-    second: textures_39
+    second: burned_1
   - first:
       213: -4139450570144997443
-    second: textures_40
+    second: wall_0
   - first:
       213: -6441771299093474124
-    second: textures_41
+    second: wall_1
   - first:
       213: 1410200295725630086
-    second: textures_42
+    second: wall_2
   - first:
       213: 1263904884557643632
-    second: textures_43
+    second: wall_3
   - first:
       213: -3046706558814805263
-    second: textures_44
+    second: tree_0
   - first:
       213: 6974063052643219422
-    second: textures_45
+    second: tree_1
   - first:
       213: 8612205345016526341
-    second: textures_46
+    second: wall_4
   - first:
       213: -6322198657807099894
-    second: textures_47
+    second: wall_5
   - first:
       213: 2976013639293557858
-    second: textures_48
+    second: wall_6
   - first:
       213: 7721605498248594953
-    second: textures_49
+    second: wall_7
   - first:
       213: 4287624165949001524
-    second: textures_50
+    second: wall-bottom_0
   - first:
       213: -1330549654365627823
-    second: textures_51
+    second: wall-bottom_1
   - first:
       213: 5861451949309023723
-    second: textures_52
+    second: wall-bottom_2
   - first:
       213: 7157792216153266757
-    second: textures_53
+    second: wall-bottom_3
   - first:
       213: -758794643210040398
     second: textures_54
@@ -647,7 +647,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_18
+      name: grass-edge_0
       rect:
         serializedVersion: 2
         x: 0
@@ -668,7 +668,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_19
+      name: grass-edge_1
       rect:
         serializedVersion: 2
         x: 32
@@ -689,7 +689,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_20
+      name: grass-edge_2
       rect:
         serializedVersion: 2
         x: 64
@@ -710,7 +710,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_21
+      name: grass-edge_3
       rect:
         serializedVersion: 2
         x: 96
@@ -815,7 +815,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_26
+      name: grass-corner-se_0
       rect:
         serializedVersion: 2
         x: 0
@@ -836,7 +836,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_27
+      name: grass-corner-sw_0
       rect:
         serializedVersion: 2
         x: 32
@@ -857,7 +857,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_28
+      name: grass-corner-se_1
       rect:
         serializedVersion: 2
         x: 64
@@ -878,7 +878,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_29
+      name: grass-corner-sw_1
       rect:
         serializedVersion: 2
         x: 96
@@ -983,7 +983,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_34
+      name: grass-corner-ne_0
       rect:
         serializedVersion: 2
         x: 0
@@ -1004,7 +1004,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_35
+      name: grass-corner-nw_0
       rect:
         serializedVersion: 2
         x: 32
@@ -1025,7 +1025,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_36
+      name: grass-corner-ne_1
       rect:
         serializedVersion: 2
         x: 64
@@ -1046,7 +1046,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_37
+      name: grass-corner-nw_1
       rect:
         serializedVersion: 2
         x: 96
@@ -1067,7 +1067,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_38
+      name: burned_0
       rect:
         serializedVersion: 2
         x: 128
@@ -1088,7 +1088,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_39
+      name: burned_1
       rect:
         serializedVersion: 2
         x: 160
@@ -1109,7 +1109,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_40
+      name: wall_0
       rect:
         serializedVersion: 2
         x: 0
@@ -1130,7 +1130,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_41
+      name: wall_1
       rect:
         serializedVersion: 2
         x: 32
@@ -1151,7 +1151,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_42
+      name: wall_2
       rect:
         serializedVersion: 2
         x: 64
@@ -1172,7 +1172,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_43
+      name: wall_3
       rect:
         serializedVersion: 2
         x: 96
@@ -1193,7 +1193,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_44
+      name: tree_0
       rect:
         serializedVersion: 2
         x: 128
@@ -1214,7 +1214,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_45
+      name: tree_1
       rect:
         serializedVersion: 2
         x: 160
@@ -1235,7 +1235,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_46
+      name: wall_4
       rect:
         serializedVersion: 2
         x: 0
@@ -1256,7 +1256,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_47
+      name: wall_5
       rect:
         serializedVersion: 2
         x: 32
@@ -1277,7 +1277,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_48
+      name: wall_6
       rect:
         serializedVersion: 2
         x: 64
@@ -1298,7 +1298,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_49
+      name: wall_7
       rect:
         serializedVersion: 2
         x: 96
@@ -1319,7 +1319,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_50
+      name: wall-bottom_0
       rect:
         serializedVersion: 2
         x: 0
@@ -1340,7 +1340,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_51
+      name: wall-bottom_1
       rect:
         serializedVersion: 2
         x: 32
@@ -1361,7 +1361,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_52
+      name: wall-bottom_2
       rect:
         serializedVersion: 2
         x: 64
@@ -1382,7 +1382,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: textures_53
+      name: wall-bottom_3
       rect:
         serializedVersion: 2
         x: 96
