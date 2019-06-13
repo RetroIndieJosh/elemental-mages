@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using System.Linq;
 using TMPro;
 using JoshuaMcLean;
+using UnityEngine.SceneManagement;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class WorldGenerator : MonoBehaviour
     [Header( "UI & Visuals" )]
     [SerializeField] private TextMeshProUGUI m_mageInfoTextMesh = null;
     [SerializeField] private float m_mageAnimateSpeed = 0.5f;
+    [SerializeField] private GameObject m_winDisplay = null;
 
     public bool CanCast {  get { return m_mana > 0; } }
     public float MageAnimateSpeed {  get { return m_mageAnimateSpeed; } }
@@ -56,6 +58,7 @@ public class WorldGenerator : MonoBehaviour
     private GameObject[,] m_tileObjects = null;
     private int m_levelIndex = 0;
     private int m_mana = 0;
+    private bool m_isGameOver = false;
 
     public void AddMana(int a_mana ) {
         m_mana += a_mana;
@@ -69,6 +72,15 @@ public class WorldGenerator : MonoBehaviour
 
     public void UseMana() {
         --m_mana;
+    }
+
+    private IEnumerator EndGame() {
+        if ( m_winDisplay != null ) {
+            m_winDisplay.SetActive( true );
+            yield return new WaitForSeconds( 5f );
+        }
+
+        SceneManager.LoadScene( "title" );
     }
 
     private void StartLevel() {
@@ -91,7 +103,8 @@ public class WorldGenerator : MonoBehaviour
         // load new
 
         if( CurrentLevel == null ) {
-            Debug.LogError( $"No level {m_levelIndex}" );
+            m_isGameOver = true;
+            StartCoroutine( EndGame() );
             return;
         }
 
@@ -191,6 +204,7 @@ public class WorldGenerator : MonoBehaviour
 
     private void Awake() {
         instance = this;
+        m_winDisplay.SetActive( false );
     }
 
     private void Start() {
@@ -206,7 +220,7 @@ public class WorldGenerator : MonoBehaviour
     }
 
     void Update() {
-        if ( m_tileMap == null ) return;
+        if ( m_isGameOver || m_tileMap == null ) return;
 
         UpdateTileObjects();
         UpdateFirePropogation();
@@ -215,7 +229,7 @@ public class WorldGenerator : MonoBehaviour
             NextLevel();
 
         var mageCount = PlayerController.ActiveMageCount;
-        MageInfo = $"Level: {m_levelIndex + 1}\n{mageCount} Mages\nMana: {m_mana}";
+        MageInfo = $"(F1/Start for help)\nLevel: {m_levelIndex + 1}\n{mageCount} Mages\nMana: {m_mana}";
     }
 
     private void PropogateFire( int a_x, int a_y ) {

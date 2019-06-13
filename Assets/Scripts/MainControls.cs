@@ -420,6 +420,17 @@ public class MainControls : IInputActionCollection
                     ""processors"": """",
                     ""interactions"": """",
                     ""bindings"": []
+                },
+                {
+                    ""name"": ""Help"",
+                    ""id"": ""8c7d34cd-ea87-4172-b37f-c05422754828"",
+                    ""expectedControlLayout"": """",
+                    ""continuous"": true,
+                    ""passThrough"": false,
+                    ""initialStateCheck"": false,
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""bindings"": []
                 }
             ],
             ""bindings"": [
@@ -498,11 +509,23 @@ public class MainControls : IInputActionCollection
                 {
                     ""name"": """",
                     ""id"": ""70091b31-4889-4003-bd2c-14e3613baf94"",
-                    ""path"": ""<Keyboard>/f2"",
+                    ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Overhead"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""389b6e5e-daca-4887-9278-1373f219efa8"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Help"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false,
                     ""modifiers"": """"
@@ -526,6 +549,7 @@ public class MainControls : IInputActionCollection
         m_Camera = asset.GetActionMap("Camera");
         m_Camera_Rotate = m_Camera.GetAction("Rotate");
         m_Camera_Overhead = m_Camera.GetAction("Overhead");
+        m_Camera_Help = m_Camera.GetAction("Help");
     }
 
     ~MainControls()
@@ -708,12 +732,14 @@ public class MainControls : IInputActionCollection
     private ICameraActions m_CameraActionsCallbackInterface;
     private InputAction m_Camera_Rotate;
     private InputAction m_Camera_Overhead;
+    private InputAction m_Camera_Help;
     public struct CameraActions
     {
         private MainControls m_Wrapper;
         public CameraActions(MainControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Rotate { get { return m_Wrapper.m_Camera_Rotate; } }
         public InputAction @Overhead { get { return m_Wrapper.m_Camera_Overhead; } }
+        public InputAction @Help { get { return m_Wrapper.m_Camera_Help; } }
         public InputActionMap Get() { return m_Wrapper.m_Camera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -730,6 +756,9 @@ public class MainControls : IInputActionCollection
                 Overhead.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnOverhead;
                 Overhead.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnOverhead;
                 Overhead.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnOverhead;
+                Help.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnHelp;
+                Help.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnHelp;
+                Help.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnHelp;
             }
             m_Wrapper.m_CameraActionsCallbackInterface = instance;
             if (instance != null)
@@ -740,6 +769,9 @@ public class MainControls : IInputActionCollection
                 Overhead.started += instance.OnOverhead;
                 Overhead.performed += instance.OnOverhead;
                 Overhead.canceled += instance.OnOverhead;
+                Help.started += instance.OnHelp;
+                Help.performed += instance.OnHelp;
+                Help.canceled += instance.OnHelp;
             }
         }
     }
@@ -767,5 +799,6 @@ public class MainControls : IInputActionCollection
     {
         void OnRotate(InputAction.CallbackContext context);
         void OnOverhead(InputAction.CallbackContext context);
+        void OnHelp(InputAction.CallbackContext context);
     }
 }

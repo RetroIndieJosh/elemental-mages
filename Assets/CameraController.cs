@@ -12,12 +12,21 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
     [SerializeField] private float m_dampSpeed = 0.3f;
     [SerializeField] private float m_overheadHeight = 10f;
 
+    [SerializeField] private GameObject m_helpDisplay = null;
+
     public bool IsOverhead { get; private set; }
     public float Rotation { get; private set; }
 
     private MainControls m_mainControls = null;
     private Vector3 m_rotateVelocity = Vector3.zero;
     private Vector3 m_velocity = Vector3.zero;
+
+    public void OnHelp( InputAction.CallbackContext context ) {
+        if ( context.performed == false ) return;
+
+        if ( m_helpDisplay == null ) return;
+        m_helpDisplay.SetActive( !m_helpDisplay.activeSelf );
+    }
 
     public void OnOverhead( InputAction.CallbackContext context ) {
         if ( context.performed == false ) return;
@@ -41,6 +50,10 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
         m_mainControls = new MainControls();
         m_mainControls.Camera.SetCallbacks( this );
         m_mainControls.Enable();
+
+        m_helpDisplay.SetActive( false );
+
+        transform.position = Vector3.zero;
     }
 
     private void LateUpdate() {
