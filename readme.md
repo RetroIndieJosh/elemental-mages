@@ -1,9 +1,8 @@
 # Art
 
 # Tech
-- figure out how to do animations
+- replace gem with sprite?
 
-- reset velocity on character switch
 - visual cast cooldown in UI (bar?) or player (color?)
 - randomize water tiles
 - randomize ice tiles
@@ -19,6 +18,8 @@
 - options
 
 - pickup mana sound
+
+- add fire?
 
 # Wishlist
 - earth mage (water -> tree)

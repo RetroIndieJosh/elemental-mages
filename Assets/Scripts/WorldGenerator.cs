@@ -78,6 +78,9 @@ public class WorldGenerator : MonoBehaviour
             for ( var y = 0; y < m_tileMap.size.y; ++y ) {
                 if ( m_tileObjects[x, y] == null ) continue;
 
+                var top = m_tileObjects[x, y].gameObject;
+                while ( top.transform.parent != null )
+                    top = top.transform.parent.gameObject;
                 Destroy( m_tileObjects[x, y].gameObject );
                 m_tileObjects[x, y] = null;
             }
