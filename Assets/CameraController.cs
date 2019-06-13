@@ -42,6 +42,10 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
         Rotation += move;
     }
 
+    public void ResetRotation() {
+        Rotation = 0f;
+    }
+
     private void Awake() {
         instance = this;
         IsOverhead = false;
@@ -60,7 +64,7 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
         if ( PlayerController.activePlayer == null ) return;
 
         var targetLookPos = IsOverhead ?
-            Vector3.zero :
+            Vector3.up * ( m_overheadHeight - 1f ) :
             PlayerController.activePlayer.transform.position;
 
         var rotation = Quaternion.AngleAxis( Rotation, Vector3.up );

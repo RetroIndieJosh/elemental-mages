@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour,
         }
     }
 
+    static public void ClearMageList() { s_mageList.Clear(); }
+
     static private List<PlayerController> s_mageList = new List<PlayerController>();
 
     static public void ActivateMage( PlayerType a_type, Vector3 a_position ) {
@@ -75,7 +77,7 @@ public class PlayerController : MonoBehaviour,
     private Rigidbody m_body = null;
     private MainControls m_mainControls = null;
     private float m_timeSinceLastCastSec = Mathf.Infinity;
-    private Vector2 m_stickInput = Vector2.zero;
+    private Vector2 m_castDirection = Vector2.zero;
     private Animator m_animator = null;
 
     private RigidbodyConstraints m_initialConstraints = RigidbodyConstraints.None;
@@ -111,7 +113,10 @@ public class PlayerController : MonoBehaviour,
     }
 
     private void FixedUpdate() {
-        m_body.velocity = new Vector3( m_move.x, 0f, m_move.y );
+        var yRot = CameraController.instance.Rotation;
+        var move3d = new Vector3( m_move.x, 0f, m_move.y );
+        var angledMove = Quaternion.AngleAxis( yRot, Vector3.up ) * move3d;
+        m_body.velocity = new Vector3( angledMove.x, 0f, angledMove.z );
     }
 
     private void Start() {
@@ -120,6 +125,9 @@ public class PlayerController : MonoBehaviour,
 
     private void Update() {
         m_timeSinceLastCastSec += Time.deltaTime;
+
+        if ( m_timeSinceLastCastSec >= m_spellCooldownTimeSec )
+            WorldGenerator.instance.MageInfo += " ***";
     }
 
     IEnumerator StopCastAnimation() {
@@ -134,7 +142,12 @@ public class PlayerController : MonoBehaviour,
         //Debug.Log( "Cast spell" );
 
         AudioSource.PlayClipAtPoint( m_spellCastSound, transform.position );
-        m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
+
+        var yRot = CameraController.instance.Rotation;
+        //m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
+        m_spellParticles.transform.forward = Quaternion.AngleAxis( yRot, Vector3.up )
+            * new Vector3( m_castDirection.x, 0f, m_castDirection.y );
+
         m_spellParticles.Play();
         m_timeSinceLastCastSec = 0f;
         WorldGenerator.instance.UseMana();
@@ -157,15 +170,11 @@ public class PlayerController : MonoBehaviour,
     private Vector2 m_move = Vector2.zero;
 
     public void OnMove(InputAction.CallbackContext context) {
-        var move = context.ReadValue<Vector2>();
-        var move3d = new Vector3( move.x, 0f, move.y );
+        m_move = context.ReadValue<Vector2>() * m_moveSpeed;
+        Debug.Log( "Move: " + m_move );
 
-        var yRot = CameraController.instance.Rotation;
-        move3d = Quaternion.AngleAxis( yRot, Vector3.up ) * move3d;
-        m_move = new Vector2( move3d.x, move3d.z );
 
-        m_move *= m_moveSpeed;
-        if ( move.magnitude < Mathf.Epsilon ) {
+        if ( m_move.magnitude < Mathf.Epsilon ) {
             m_move = Vector2.zero;
 
             if ( m_flipZ ) m_animator.Play( "Idle Back" );
@@ -175,18 +184,22 @@ public class PlayerController : MonoBehaviour,
         } 
 
         // remember our last move input for casting direction
-        m_stickInput = m_move;
+        m_castDirection = m_move.normalized;
 
-        m_flipZ = move.y > Mathf.Epsilon;
+        m_flipZ = m_move.y > Mathf.Epsilon;
 
         if ( m_flipZ ) m_animator.Play( "Walk Back" );
         else m_animator.Play( "Walk" );
 
-        GetComponentInChildren<SpriteRenderer>().flipX = move.x < -Mathf.Epsilon;
+        GetComponentInChildren<SpriteRenderer>().flipX = m_move.x < -Mathf.Epsilon;
     }
 
     public void OnNextPlayer( InputAction.CallbackContext context ) {
         ControlPlayer( -1 );
+    }
+
+    public void OnRestart( InputAction.CallbackContext context ) {
+        WorldGenerator.instance.StartLevel();
     }
 
     public void OnPrevPlayer( InputAction.CallbackContext context ) {
@@ -208,7 +221,7 @@ public class PlayerController : MonoBehaviour,
         activePlayer = a_player;
         activePlayer.enabled = true;
 
-        Debug.Log( $"New player: {activePlayer.name}" );
+        //Debug.Log( $"New player: {activePlayer.name}" );
     }
 
     static public void ControlPlayer(int a_indexChange ) {

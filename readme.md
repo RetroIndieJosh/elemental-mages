@@ -1,10 +1,11 @@
 # Art
 
 # Tech
-- visual cast cooldown in UI (bar?) or player (color?)
 - randomize water tiles
 - randomize ice tiles
 - randomize wall tiles
+
+- throw error when starting as player without start position
 
 - water animation (wrap?)
 
@@ -12,8 +13,8 @@
 - end cast animation when casting ends
 - adjust movement direction while changing camera angle if movement held
 
-- title screen
 - options
+- BUG sometimes get negative mana with diagonal movement on water
 
 - pickup mana sound
 

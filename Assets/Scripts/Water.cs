@@ -20,6 +20,10 @@ public class Water : TileComponent3d
     private Collider m_collider = null;
     private bool m_isIce = false;
 
+    public void ResetTile() {
+        WorldGenerator.instance.TileMap.SetTile( tilePos, waterTile );
+    }
+
     private void OnTriggerEnter( Collider other ) {
         if ( m_isIce ) return;
 

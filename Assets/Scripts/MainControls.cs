@@ -93,126 +93,6 @@ public class MainControls : IInputActionCollection
                     ""modifiers"": """"
                 },
                 {
-                    ""name"": ""Keyboard (WASD)"",
-                    ""id"": ""eb8c1a6e-3721-4ef9-a599-7e62500f9e55"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""9512418f-8aa4-42ab-96f5-90e8d38639ed"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""b6d846e7-e2a7-4a05-958e-bc2f72947f70"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""9e37f564-a9ae-4dd6-9bea-0bdd3e16c08c"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""06a7cfd3-3c3d-40c8-8ff1-737a07da27e3"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""Gamepad (Left Stick)"",
-                    ""id"": ""40b517d4-7818-4d23-aad6-a240b21c59c6"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""e8c22cae-4724-42f3-86c1-1042a4afdd14"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""ef87b435-f707-4952-84ec-af97cc4712b9"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""58c3e5df-7805-4265-8342-920baf4de12a"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""fdad57ff-4425-4e8f-aa18-fad100224219"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true,
-                    ""modifiers"": """"
-                },
-                {
                     ""name"": ""Gamepad (Dpad)"",
                     ""id"": ""57798076-6e39-4b41-8fda-2e5acab131a0"",
                     ""path"": ""2DVector"",
@@ -305,7 +185,7 @@ public class MainControls : IInputActionCollection
                 {
                     ""name"": """",
                     ""id"": ""23a8bfad-81b5-4419-88b3-2ac166121cf1"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -322,18 +202,6 @@ public class MainControls : IInputActionCollection
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Next Player"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false,
-                    ""modifiers"": """"
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d7962d26-55a8-4a8f-bf66-373d75e59293"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Prev Player"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false,
                     ""modifiers"": """"
@@ -366,13 +234,24 @@ public class MainControls : IInputActionCollection
                     ""processors"": """",
                     ""interactions"": """",
                     ""bindings"": []
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""id"": ""293177ad-c123-4fbc-9296-e0315400764e"",
+                    ""expectedControlLayout"": """",
+                    ""continuous"": false,
+                    ""passThrough"": false,
+                    ""initialStateCheck"": false,
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""bindings"": []
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""b57d8b6c-8211-4802-9b86-b383a1bf51ae"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -389,6 +268,30 @@ public class MainControls : IInputActionCollection
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Cast"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e30f49e1-e523-48a5-a335-9c1d96043641"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb3b323e-a3d6-4eb2-96b2-e54fea062807"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false,
                     ""modifiers"": """"
@@ -414,7 +317,7 @@ public class MainControls : IInputActionCollection
                     ""name"": ""Overhead"",
                     ""id"": ""5e8d4c57-bc28-4e29-aad4-c9ff0df80f32"",
                     ""expectedControlLayout"": """",
-                    ""continuous"": true,
+                    ""continuous"": false,
                     ""passThrough"": false,
                     ""initialStateCheck"": false,
                     ""processors"": """",
@@ -425,7 +328,7 @@ public class MainControls : IInputActionCollection
                     ""name"": ""Help"",
                     ""id"": ""8c7d34cd-ea87-4172-b37f-c05422754828"",
                     ""expectedControlLayout"": """",
-                    ""continuous"": true,
+                    ""continuous"": false,
                     ""passThrough"": false,
                     ""initialStateCheck"": false,
                     ""processors"": """",
@@ -449,7 +352,7 @@ public class MainControls : IInputActionCollection
                 {
                     ""name"": ""negative"",
                     ""id"": ""374144a3-e688-4876-9293-af633dfb103f"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -461,7 +364,7 @@ public class MainControls : IInputActionCollection
                 {
                     ""name"": ""positive"",
                     ""id"": ""54dec1eb-a427-46bc-8b4d-b52718c7bc13"",
-                    ""path"": ""<Keyboard>/x"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -485,7 +388,7 @@ public class MainControls : IInputActionCollection
                 {
                     ""name"": ""negative"",
                     ""id"": ""d91747db-2760-448c-9733-092a33a8fd70"",
-                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -497,7 +400,7 @@ public class MainControls : IInputActionCollection
                 {
                     ""name"": ""positive"",
                     ""id"": ""f9ea02cc-08c0-49c6-b3ab-98f27c49df27"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -520,8 +423,32 @@ public class MainControls : IInputActionCollection
                 },
                 {
                     ""name"": """",
+                    ""id"": ""26537f95-8295-4927-9af5-74fdb8f6c0bf"",
+                    ""path"": ""<Keyboard>/f2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Overhead"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": """",
                     ""id"": ""389b6e5e-daca-4887-9278-1373f219efa8"",
                     ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Help"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false,
+                    ""modifiers"": """"
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba399666-1571-46cf-ad7b-1775b07b7449"",
+                    ""path"": ""<Keyboard>/f1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -545,6 +472,7 @@ public class MainControls : IInputActionCollection
         // Cast
         m_Cast = asset.GetActionMap("Cast");
         m_Cast_Cast = m_Cast.GetAction("Cast");
+        m_Cast_Restart = m_Cast.GetAction("Restart");
         // Camera
         m_Camera = asset.GetActionMap("Camera");
         m_Camera_Rotate = m_Camera.GetAction("Rotate");
@@ -691,11 +619,13 @@ public class MainControls : IInputActionCollection
     private InputActionMap m_Cast;
     private ICastActions m_CastActionsCallbackInterface;
     private InputAction m_Cast_Cast;
+    private InputAction m_Cast_Restart;
     public struct CastActions
     {
         private MainControls m_Wrapper;
         public CastActions(MainControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Cast { get { return m_Wrapper.m_Cast_Cast; } }
+        public InputAction @Restart { get { return m_Wrapper.m_Cast_Restart; } }
         public InputActionMap Get() { return m_Wrapper.m_Cast; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -709,6 +639,9 @@ public class MainControls : IInputActionCollection
                 Cast.started -= m_Wrapper.m_CastActionsCallbackInterface.OnCast;
                 Cast.performed -= m_Wrapper.m_CastActionsCallbackInterface.OnCast;
                 Cast.canceled -= m_Wrapper.m_CastActionsCallbackInterface.OnCast;
+                Restart.started -= m_Wrapper.m_CastActionsCallbackInterface.OnRestart;
+                Restart.performed -= m_Wrapper.m_CastActionsCallbackInterface.OnRestart;
+                Restart.canceled -= m_Wrapper.m_CastActionsCallbackInterface.OnRestart;
             }
             m_Wrapper.m_CastActionsCallbackInterface = instance;
             if (instance != null)
@@ -716,6 +649,9 @@ public class MainControls : IInputActionCollection
                 Cast.started += instance.OnCast;
                 Cast.performed += instance.OnCast;
                 Cast.canceled += instance.OnCast;
+                Restart.started += instance.OnRestart;
+                Restart.performed += instance.OnRestart;
+                Restart.canceled += instance.OnRestart;
             }
         }
     }
@@ -794,6 +730,7 @@ public class MainControls : IInputActionCollection
     public interface ICastActions
     {
         void OnCast(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {

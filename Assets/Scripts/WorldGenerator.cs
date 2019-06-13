@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.InputSystem;
 using System.Linq;
 using TMPro;
 using JoshuaMcLean;
@@ -34,13 +35,17 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_mageInfoTextMesh = null;
     [SerializeField] private float m_mageAnimateSpeed = 0.5f;
     [SerializeField] private GameObject m_winDisplay = null;
+    [SerializeField] List<Tile> m_grassTileList = new List<Tile>();
 
     public bool CanCast {  get { return m_mana > 0; } }
     public float MageAnimateSpeed {  get { return m_mageAnimateSpeed; } }
     public float FireBurnDownTimeSecTotal { get { return m_firePropogationTimeSec + m_fireBurnDownTimeSec; } }
     public Tilemap TileMap {  get { return m_tileMap; } }
 
-    private string MageInfo {
+    private float m_gameTime = 0f;
+
+    public string MageInfo {
+        get { return m_mageInfoTextMesh.text; }
         set {
             if ( m_mageInfoTextMesh == null ) return;
             m_mageInfoTextMesh.text = value;
@@ -72,18 +77,23 @@ public class WorldGenerator : MonoBehaviour
 
     public void UseMana() {
         --m_mana;
+        if ( m_mana < 0 ) m_mana = 0;
     }
+
+    [SerializeField] private TextMeshProUGUI m_timeDisplay = null;
 
     private IEnumerator EndGame() {
         if ( m_winDisplay != null ) {
             m_winDisplay.SetActive( true );
+            m_timeDisplay.text = $"Time {m_gameTime / 60f:00}:{m_gameTime % 60f:00.00}";
             yield return new WaitForSeconds( 5f );
         }
 
         SceneManager.LoadScene( "title" );
+        //Application.Quit();
     }
 
-    private void StartLevel() {
+    public void StartLevel() {
         // unload previous
 
         for ( var x = 0; x < m_tileMap.size.x; ++x ) {
@@ -128,10 +138,18 @@ public class WorldGenerator : MonoBehaviour
         }
         PlayerController.ControlPlayer( startPlayer );
 
+        StartCoroutine( ResetWaterTiles() );
+
         RandomizeTerrain();
+        CameraController.instance.ResetRotation();
     }
 
-    [SerializeField] List<Tile> m_grassTileList = new List<Tile>();
+    // wait for destroy before resetting
+    private IEnumerator ResetWaterTiles() {
+        yield return null;
+        foreach ( var water in FindObjectsOfType<Water>() )
+            water.ResetTile();
+    }
 
     private void RandomizeTerrain() {
         for ( var x = 0; x < m_tileMap.size.x; ++x ) {
@@ -142,6 +160,9 @@ public class WorldGenerator : MonoBehaviour
 
                 var specialTile = tile as SpecialTile;
                 if ( specialTile != null ) {
+                    continue;
+                    // TODO only these become grass, but you'll have to store the original tilemap to restore on restart
+                    // (this will replace start tiles, exits, etc. with grass for better visuals)
                     switch( specialTile.TileType ) {
                         case TileType.Tree:
                         case TileType.Water: continue;
@@ -205,6 +226,7 @@ public class WorldGenerator : MonoBehaviour
     private void Awake() {
         instance = this;
         m_winDisplay.SetActive( false );
+        PlayerController.ClearMageList();
     }
 
     private void Start() {
@@ -221,6 +243,12 @@ public class WorldGenerator : MonoBehaviour
 
     void Update() {
         if ( m_isGameOver || m_tileMap == null ) return;
+
+        m_gameTime += Time.unscaledDeltaTime;
+
+        // next level cheat
+        if ( Keyboard.current != null && Keyboard.current.f5Key.wasPressedThisFrame )
+            NextLevel();
 
         UpdateTileObjects();
         UpdateFirePropogation();
@@ -273,11 +301,11 @@ public class WorldGenerator : MonoBehaviour
                     return null;
                 case TileType.StartFire:
                     PlayerController.ActivateMage( PlayerType.Fire, worldPos );
-                    Debug.Log( $"Fire start at {worldPos}" );
+                    //Debug.Log( $"Fire start at {worldPos}" );
                     return null;
                 case TileType.StartWater:
                     PlayerController.ActivateMage( PlayerType.Water, worldPos );
-                    Debug.Log( $"Water start at {worldPos}" );
+                    //Debug.Log( $"Water start at {worldPos}" );
                     return null;
             }
         }
