@@ -16,8 +16,9 @@ public class ManaPickup : TileComponent3d
         WorldGenerator.instance.AddMana( m_manaCount );
         GetComponentInChildren<Collider>().enabled = false;
 
-        var spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if( spriteRenderer != null ) spriteRenderer.enabled = false;
+        var spriteRendererArr = GetComponentsInChildren<SpriteRenderer>();
+        foreach( var spriteRenderer in spriteRendererArr )
+            spriteRenderer.enabled = false;
 
         var meshRenderer = GetComponentInChildren<MeshRenderer>();
         if( meshRenderer != null ) meshRenderer.enabled = false;

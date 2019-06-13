@@ -42,8 +42,11 @@ public class BillboardSprite : MonoBehaviour {
 
     private void UpdateRotation() {
         var yRot = CameraController.instance.Rotation;
+
         var angles = transform.eulerAngles;
+        angles.x = CameraController.instance.IsOverhead ? 90.0f : 0.0f;
         angles.y = yRot;
+        angles.z = 0f;
         transform.eulerAngles = angles;
     }
 }

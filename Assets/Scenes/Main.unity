@@ -4593,7 +4593,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: NaN, w: 8.4e-44}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -4812,6 +4812,7 @@ MonoBehaviour:
   m_distance: {x: 0, y: 2, z: -2}
   m_moveSpeed: 2
   m_dampSpeed: 0.3
+  m_overheadPosition: {x: 0, y: 10, z: 0}
 --- !u!1 &1018812965
 GameObject:
   m_ObjectHideFlags: 0

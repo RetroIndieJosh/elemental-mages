@@ -1,8 +1,6 @@
 # Art
 
 # Tech
-- replace gem with sprite?
-
 - visual cast cooldown in UI (bar?) or player (color?)
 - randomize water tiles
 - randomize ice tiles
