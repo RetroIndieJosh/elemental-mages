@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour,
     }
 
     private void FixedUpdate() {
-        var yRot = CameraController.instance.Rotation;
+        var yRot = CameraController.instance.TargetRotation;
         var move3d = new Vector3( m_move.x, 0f, m_move.y );
         var angledMove = Quaternion.AngleAxis( yRot, Vector3.up ) * move3d;
         m_body.velocity = new Vector3( angledMove.x, 0f, angledMove.z );
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour,
 
         AudioSource.PlayClipAtPoint( m_spellCastSound, transform.position );
 
-        var yRot = CameraController.instance.Rotation;
+        var yRot = CameraController.instance.TargetRotation;
         //m_spellParticles.transform.forward = new Vector3( m_stickInput.x, 0f, m_stickInput.y );
         m_spellParticles.transform.forward = Quaternion.AngleAxis( yRot, Vector3.up )
             * new Vector3( m_castDirection.x, 0f, m_castDirection.y );

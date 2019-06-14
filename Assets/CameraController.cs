@@ -15,7 +15,8 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
     [SerializeField] private GameObject m_helpDisplay = null;
 
     public bool IsOverhead { get; private set; }
-    public float Rotation { get; private set; }
+    public float Rotation { get { return transform.eulerAngles.y; } }
+    public float TargetRotation { get; private set; }
 
     private MainControls m_mainControls = null;
     private Vector3 m_rotateVelocity = Vector3.zero;
@@ -31,7 +32,7 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
     public void OnOverhead( InputAction.CallbackContext context ) {
         if ( context.performed == false ) return;
         IsOverhead = !IsOverhead;
-        Rotation = 0f;
+        TargetRotation = 0f;
     }
 
     public void OnRotate( InputAction.CallbackContext context ) {
@@ -39,17 +40,17 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
 
         var move = context.ReadValue<float>();
         //transform.parent.Rotate( Vector3.up, move );
-        Rotation += move;
+        TargetRotation += move;
     }
 
     public void ResetRotation() {
-        Rotation = 0f;
+        TargetRotation = 0f;
     }
 
     private void Awake() {
         instance = this;
         IsOverhead = false;
-        Rotation = 0f;
+        TargetRotation = 0f;
 
         m_mainControls = new MainControls();
         m_mainControls.Camera.SetCallbacks( this );
@@ -67,7 +68,7 @@ public class CameraController : MonoBehaviour, MainControls.ICameraActions
             Vector3.up * ( m_overheadHeight - 1f ) :
             PlayerController.activePlayer.transform.position;
 
-        var rotation = Quaternion.AngleAxis( Rotation, Vector3.up );
+        var rotation = Quaternion.AngleAxis( TargetRotation, Vector3.up );
         var targetMovePos = IsOverhead ?
             new Vector3( 0f, m_overheadHeight, 0f ) :
             targetLookPos + rotation * m_distance;
