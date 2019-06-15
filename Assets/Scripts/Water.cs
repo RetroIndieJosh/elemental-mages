@@ -27,19 +27,17 @@ public class Water : TileComponent3d
     private void OnTriggerEnter( Collider other ) {
         if ( m_isIce ) return;
 
-        WorldGenerator.instance.TileMap.SetTile( tilePos, iceTile );
-        m_isIce = true;
+        var player = other.GetComponent<PlayerController>();
+        if ( player.PlayerType != PlayerType.Water ) return;
 
-        // freezing water uses mana
-        WorldGenerator.instance.UseMana();
+        Freeze();
     }
 
     private void OnTriggerExit( Collider other ) {
-        if ( PlayerController.activePlayer.PlayerType != PlayerType.Fire )
+        if ( other.GetComponent<PlayerController>().PlayerType != PlayerType.Fire )
             return;
 
-        WorldGenerator.instance.TileMap.SetTile( tilePos, waterTile );
-        m_isIce = false;
+        Thaw();
     }
 
     private void Awake() {
@@ -49,11 +47,30 @@ public class Water : TileComponent3d
     private void Update() {
         if ( PlayerController.activePlayer == null ) return;
 
+        /*
         bool canFreeze = PlayerController.activePlayer.PlayerType == PlayerType.Water 
             && WorldGenerator.instance.CanCast;
         m_collider.isTrigger = m_isIce || canFreeze;
+        */
+
+        m_collider.isTrigger = m_isIce;
     }
 
-    public override void Burn() { }
-    public override void Wet() { }
+    public override void Burn() {
+        Thaw();
+    }
+
+    public override void Wet() {
+        Freeze();
+    }
+
+    private void Freeze() {
+        WorldGenerator.instance.TileMap.SetTile( tilePos, iceTile );
+        m_isIce = true;
+    }
+
+    private void Thaw() {
+        WorldGenerator.instance.TileMap.SetTile( tilePos, waterTile );
+        m_isIce = false;
+    }
 }

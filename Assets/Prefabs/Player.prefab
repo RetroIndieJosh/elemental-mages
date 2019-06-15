@@ -4924,7 +4924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerType: 3
-  m_moveSpeed: 1
+  m_moveSpeed: 2
   m_spellParticles: {fileID: 5189523777075104187}
   m_spellCooldownTimeSec: 2
   m_spellCastSound: {fileID: 8300000, guid: 0006acf8be411b345b65580ccecd9f7e, type: 3}

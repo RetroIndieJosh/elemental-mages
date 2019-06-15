@@ -20,6 +20,13 @@
 
 - add fire?
 
+- show direction of casting 
+- - hold button to stay still and aim
+- - highlight affected tile(s)
+
+- BUG animations get frozen after restarting level (and sometimes in new level)
+- BUG sometimes mages float or sink into floor
+
 # Wishlist
 - earth mage (water -> tree)
 - wind mage (blow fire across empty tiles)
